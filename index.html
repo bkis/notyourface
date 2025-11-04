@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>notyourface dev</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      import notyourface from './src/main.ts';
+      const img = document.createElement('img');
+      img.src = notyourface();
+      img.height = 64;
+      document.getElementById('app').appendChild(img);
+    </script>
+  </body>
+</html>

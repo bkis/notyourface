@@ -1,0 +1,38 @@
+{
+  "name": "notyourface",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/notyourface.umd.cjs",
+  "module": "./dist/notyourface.js",
+  "exports": {
+    ".": {
+      "import": "./dist/notyourface.js",
+      "require": "./dist/notyourface.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run fix && tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix",
+    "format": "prettier . --write",
+    "fix": "run-s lint format",
+    "prepare": "run-p fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@microsoft/api-extractor": "^7.54.0",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "npm-run-all2": "^8.0.4",
+    "prettier": "3.6.2",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.3",
+    "unplugin-dts": "^1.0.0-beta.6",
+    "vite": "^7.1.7"
+  }
+}
