@@ -3,19 +3,21 @@ const _cache: Map<string, string> = new Map();
 interface NYFOptions {
   seed?: unknown;
   scale?: number;
-  noCache?: boolean;
   palette?: string[];
+  noCache?: boolean;
+  maxCacheSize?: number;
 }
 
 interface GuaranteedNYFOptions extends Required<NYFOptions> {
   seed: string;
 }
 
-const _DEFAULT_OPTIONS: GuaranteedNYFOptions = {
+const _DEFAULTS: GuaranteedNYFOptions = {
   seed: Math.random().toString(),
   scale: 256,
-  noCache: false,
   palette: ['#002500', '#929982', '#EDCBB1', '#B7245C', '#843B62'],
+  noCache: false,
+  maxCacheSize: 1024,
 };
 
 const _seedInt = (input: unknown) => {
@@ -79,27 +81,29 @@ const _generate = (o: GuaranteedNYFOptions) => {
 };
 
 const nyf = {
-  dataURL(options: NYFOptions = _DEFAULT_OPTIONS): string {
+  dataURL(options: NYFOptions = _DEFAULTS): string {
+    // populate options object to work with
+    const o: GuaranteedNYFOptions = {
+      seed: _seedStr(options.seed ?? _DEFAULTS.seed),
+      scale: options.scale ?? _DEFAULTS.scale,
+      palette: options.palette ?? _DEFAULTS.palette,
+      noCache: options.noCache ?? _DEFAULTS.noCache,
+      maxCacheSize: options.maxCacheSize ?? _DEFAULTS.maxCacheSize,
+    };
     // process seed to get something that makes sense as a mapping key
-    const seed = _seedStr(options.seed ?? _DEFAULT_OPTIONS.seed);
     // check if we can serve from cache (if cache usage isn't disabled in options)
-    if (!options.noCache && _cache.has(seed)) {
-      return _cache.get(seed) as string;
+    if (!options.noCache && _cache.has(o.seed)) {
+      return _cache.get(o.seed) as string;
     }
     // generate new avatar data URL
-    const dataURL = _generate({
-      seed,
-      scale: options.scale ?? _DEFAULT_OPTIONS.scale,
-      noCache: options.noCache ?? _DEFAULT_OPTIONS.noCache,
-      palette: options.palette ?? _DEFAULT_OPTIONS.palette,
-    });
+    const dataURL = _generate(o);
     // write to cache (if cache usage isn't disabled in options)
-    if (!options.noCache) {
-      _cache.set(seed, dataURL);
+    if (!options.noCache && _cache.size < o.maxCacheSize) {
+      _cache.set(o.seed, dataURL);
     }
     return dataURL;
   },
-  imgEl(options: NYFOptions = _DEFAULT_OPTIONS): HTMLImageElement {
+  imgEl(options: NYFOptions = _DEFAULTS): HTMLImageElement {
     const el = document.createElement('img');
     el.src = nyf.dataURL(options);
     return el;
