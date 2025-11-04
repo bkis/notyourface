@@ -12,14 +12,6 @@ interface GuaranteedNYFOptions extends Required<NYFOptions> {
   seed: string;
 }
 
-const _DEFAULTS: GuaranteedNYFOptions = {
-  seed: Math.random().toString(),
-  scale: 256,
-  palette: ['#002500', '#929982', '#EDCBB1', '#B7245C', '#843B62'],
-  noCache: false,
-  maxCacheSize: 1024,
-};
-
 const _seedInt = (input: unknown) => {
   let str: string;
   try {
@@ -46,6 +38,13 @@ const _getInt = (min: number = 0, max: number = 100, seed: string) => {
 
 const _pick = <T>(arr: T[], seed: string) => {
   return arr[_getInt(0, arr.length - 1, seed)];
+};
+
+const _rndCol = (seed?: string) => {
+  return (
+    '#' +
+    Math.floor(seed != null ? _seedInt(seed) % 16777215 : Math.random() * 16777215).toString(16)
+  );
 };
 
 const _generate = (o: GuaranteedNYFOptions) => {
@@ -80,30 +79,34 @@ const _generate = (o: GuaranteedNYFOptions) => {
   return canvas.toDataURL('image/png');
 };
 
+const _getOptions = (o?: NYFOptions) => {
+  const seed = _seedStr(o?.seed ?? Math.random().toString());
+  return {
+    seed,
+    scale: o?.scale ?? 256,
+    palette: o?.palette ?? Array.from(Array(5).keys()).map((k) => _rndCol(k + seed + k)),
+    noCache: o?.noCache ?? false,
+    maxCacheSize: o?.maxCacheSize ?? 1024,
+  } as GuaranteedNYFOptions;
+};
 const nyf = {
-  dataURL(options: NYFOptions = _DEFAULTS): string {
+  dataURL(options?: NYFOptions): string {
     // populate options object to work with
-    const o: GuaranteedNYFOptions = {
-      seed: _seedStr(options.seed ?? _DEFAULTS.seed),
-      scale: options.scale ?? _DEFAULTS.scale,
-      palette: options.palette ?? _DEFAULTS.palette,
-      noCache: options.noCache ?? _DEFAULTS.noCache,
-      maxCacheSize: options.maxCacheSize ?? _DEFAULTS.maxCacheSize,
-    };
+    const o = _getOptions(options);
     // process seed to get something that makes sense as a mapping key
     // check if we can serve from cache (if cache usage isn't disabled in options)
-    if (!options.noCache && _cache.has(o.seed)) {
+    if (!o.noCache && _cache.has(o.seed)) {
       return _cache.get(o.seed) as string;
     }
     // generate new avatar data URL
     const dataURL = _generate(o);
     // write to cache (if cache usage isn't disabled in options)
-    if (!options.noCache && _cache.size < o.maxCacheSize) {
+    if (!o.noCache && _cache.size < o.maxCacheSize) {
       _cache.set(o.seed, dataURL);
     }
     return dataURL;
   },
-  imgEl(options: NYFOptions = _DEFAULTS): HTMLImageElement {
+  imgEl(options?: NYFOptions): HTMLImageElement {
     const el = document.createElement('img');
     el.src = nyf.dataURL(options);
     return el;

@@ -10,7 +10,6 @@
     <script type="module">
       import { getAvatarImgTags } from './index.ts';
       getAvatarImgTags().forEach((imgEl) => {
-        imgEl.height = 128;
         imgEl.style.margin = '8px';
         document.getElementById('app').appendChild(imgEl);
       });
