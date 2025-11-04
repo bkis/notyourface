@@ -1,3 +1,3 @@
-import notyourface from './src/main.ts';
+import nyf from './src/main.ts';
 export const getAvatarImgTags = () =>
-  Array.from('notyourface').map((c) => notyourface.imgEl({ seed: c }));
+  Array.from('abcdefghijklmnopqrstvwxyz0123456789').map((c) => nyf.imgEl({ seed: c }));
