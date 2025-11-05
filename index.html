@@ -3,19 +3,69 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>notyourface dev</title>
+    <title>notyourface</title>
+
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      code {
+        background-color: #eee;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+      .avt-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .avt-gallery > img:nth-child(2n) {
+        border-radius: 50%;
+      }
+      .avt-gallery > img:nth-child(3n) {
+        border-radius: 25%;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <h1>notyourface</h1>
+    <p>
+      All avatar images are square-shaped.<br />
+      The rounded ones are just styled with
+      <code>border-radius: 50%</code> or <code>border-radius: 25%</code>.
+    </p>
+    <h2>seeded, fixed color palette</h2>
+    <div id="seeded-pal-col" class="avt-gallery"></div>
+    <h2>unseeded, fixed color palette</h2>
+    <div id="unseeded-pal-col" class="avt-gallery"></div>
+    <h2>seeded, random color palette</h2>
+    <div id="seeded-rnd-col" class="avt-gallery"></div>
+    <h2>unseeded, random color palette</h2>
+    <div id="unseeded-rnd-col" class="avt-gallery"></div>
 
     <script type="module">
-      import { getImgElements } from './index.ts';
+      import { getImgElement } from './index.ts';
 
-      const seeds = Array.from('abcdefghijklmnopqrstvwxyz0123456789');
-      getImgElements(seeds).forEach((imgEl) => {
-        imgEl.style.margin = '8px';
-        document.getElementById('app').appendChild(imgEl);
-      });
+      const seeds = Array.from('x'.repeat(10)).map((x, i) => String.fromCharCode(65 + i));
+      const palette1 = ['#77BEF0', '#FFCB61', '#FF894F', '#EA5B6F'];
+      const palette2 = ['#004030', '#4A9782', '#DCD0A8', '#FFF9E5'];
+      let container;
+
+      // seeded, fixed palette
+      container = document.getElementById('seeded-pal-col');
+      seeds.forEach((seed) => container.appendChild(getImgElement(seed, palette1, 100, true)));
+
+      // unseeded, fixed palette
+      container = document.getElementById('unseeded-pal-col');
+      seeds.forEach((_) => container.appendChild(getImgElement(undefined, palette2, 100, true)));
+
+      // seeded, random colors
+      container = document.getElementById('seeded-rnd-col');
+      seeds.forEach((seed) => container.appendChild(getImgElement(seed, undefined, 100, true)));
+
+      // unseeded, random colors
+      container = document.getElementById('unseeded-rnd-col');
+      seeds.forEach((_) => container.appendChild(getImgElement(undefined, undefined, 100, true)));
     </script>
   </body>
 </html>
