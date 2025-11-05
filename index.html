@@ -142,6 +142,32 @@
           complexity: 8,
         }
       );
+
+      addAvatarGallery(
+        'Only circles',
+        `Seeded avatars made exclusively of circles with a custom color palette.
+        These will look exactly the same as long as the seeds don\'t change.`,
+        Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
+        {
+          palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
+          size: 100,
+          noCache: true,
+          objects: ['circle'],
+        }
+      );
+
+      addAvatarGallery(
+        'Only squares',
+        `Seeded avatars made exclusively of squares with a custom color palette.
+        These will look exactly the same as long as the seeds don\'t change.`,
+        Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
+        {
+          palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
+          size: 100,
+          noCache: true,
+          objects: ['square'],
+        }
+      );
     </script>
   </body>
 </html>

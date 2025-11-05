@@ -6,12 +6,14 @@ const _cache: Map<string, string> = new Map();
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 type ComplexityRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type ObjectType = 'square' | 'circle' | 'triangle';
 
 interface NYFOptions {
   seed?: unknown;
   size?: number;
   palette?: string[];
   complexity?: ComplexityRange;
+  objects?: ObjectType[];
   noCache?: boolean;
   maxCacheSize?: number;
 }
@@ -21,6 +23,7 @@ type GuaranteedNYFOptions = Modify<
   {
     seed: string;
     palette?: string[];
+    objects?: ObjectType[];
     rnd: () => number;
   }
 >;
@@ -103,6 +106,7 @@ const _getOptions = (o?: NYFOptions) => {
     palette,
     complexity: o?.complexity ?? 4,
     size: o?.size ?? 128,
+    objects: o?.objects?.length ? [...new Set(o.objects)] : undefined,
     noCache: o?.noCache ?? false,
     maxCacheSize: o?.maxCacheSize ?? 1024,
   } as GuaranteedNYFOptions;
@@ -160,13 +164,14 @@ const _generate = (o: GuaranteedNYFOptions) => {
   ctx.fillStyle = _getCol(o);
   ctx.fillRect(0, 0, o.size, o.size);
   // define available draw actions
-  const actions: ((sizeMod: number) => void)[] = [
-    (sizeMod) => _drawCircle(ctx, o, sizeMod),
-    (sizeMod) => _drawSquare(ctx, o, sizeMod),
-  ];
+  type ObjectDrawAction = { type: ObjectType; fn: (sm: number) => void };
+  const actions: ObjectDrawAction[] = [
+    { type: 'circle' as ObjectType, fn: (sm: number) => _drawCircle(ctx, o, sm) },
+    { type: 'square' as ObjectType, fn: (sm: number) => _drawSquare(ctx, o, sm) },
+  ].filter((a: ObjectDrawAction) => !o.objects?.length || o.objects.includes(a.type));
   // draw objects, count depends on complexity option value
   for (let i = 1; i <= o.complexity; i++) {
-    actions[i % actions.length](1.25 - i / o.complexity);
+    actions[i % actions.length].fn(1.25 - i / o.complexity);
   }
   return canvas.toDataURL('image/png');
 };
