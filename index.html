@@ -7,10 +7,24 @@
 
     <style>
       body {
+        background-color: #272523;
+        color: #e7e1d3;
         font-family: sans-serif;
+        font-size: 16px;
+        padding: 16px;
+      }
+      h1 {
+        margin-top: 0;
+      }
+      h2 {
+        margin-top: 32px;
+        margin-bottom: 0;
+      }
+      p {
+        margin: 12px 0;
       }
       code {
-        background-color: #eee;
+        background-color: rgba(128, 128, 128, 0.25);
         padding: 2px 4px;
         border-radius: 3px;
       }
@@ -34,38 +48,100 @@
       The round(ed) ones are just styled with
       <code>border-radius: 50%</code> or <code>border-radius: 25%</code>.
     </p>
-    <h2>seeded, fixed color palette</h2>
-    <div id="seeded-pal-col" class="avt-gallery"></div>
-    <h2>unseeded, fixed color palette</h2>
-    <div id="unseeded-pal-col" class="avt-gallery"></div>
-    <h2>seeded, random color palette</h2>
-    <div id="seeded-rnd-col" class="avt-gallery"></div>
-    <h2>unseeded, random color palette</h2>
-    <div id="unseeded-rnd-col" class="avt-gallery"></div>
 
     <script type="module">
-      import { getImgElement } from './index.ts';
+      import nyf from './src/main.ts';
 
-      const seeds = Array.from('x'.repeat(10)).map((x, i) => String.fromCharCode(65 + i));
-      const palette1 = ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'];
-      const palette2 = ['#004030', '#4A9782', '#DCD0A8', '#FFF9E5'];
-      let container;
+      const addAvatarGallery = (heading, description, seeds, options) => {
+        // heading
+        const h2 = document.createElement('h2');
+        h2.innerText = heading;
+        document.body.appendChild(h2);
+        // description
+        const p = document.createElement('p');
+        p.innerHTML = description;
+        document.body.appendChild(p);
+        // avatar gallery
+        const gallery = document.createElement('p');
+        gallery.classList.add('avt-gallery');
+        document.body.appendChild(gallery);
+        // avatars
+        seeds.forEach((seed) => gallery.appendChild(nyf.imgEl({ seed, ...options })));
+      };
 
-      // seeded, fixed palette
-      container = document.getElementById('seeded-pal-col');
-      seeds.forEach((seed) => container.appendChild(getImgElement(seed, palette1, 100, true)));
+      addAvatarGallery(
+        'Seeded with fixed color palette',
+        `Seeded avatars with a custom color palette.
+        These will look exactly the same as long as the seeds don\'t change.`,
+        Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
+        {
+          palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
+          size: 100,
+          noCache: true,
+        }
+      );
 
-      // unseeded, fixed palette
-      container = document.getElementById('unseeded-pal-col');
-      seeds.forEach((_) => container.appendChild(getImgElement(undefined, palette2, 100, true)));
+      addAvatarGallery(
+        'Random with fixed color palette',
+        `Random avatars with a custom color palette.
+        These will look different each time (as there is no seed input),
+        but the colors palette used stays the same.`,
+        Array.from(Array(10).keys()).map((_) => undefined),
+        {
+          palette: ['#004030', '#4A9782', '#DCD0A8', '#FFF9E5'],
+          size: 100,
+          noCache: true,
+        }
+      );
 
-      // seeded, random colors
-      container = document.getElementById('seeded-rnd-col');
-      seeds.forEach((seed) => container.appendChild(getImgElement(seed, undefined, 100, true)));
+      addAvatarGallery(
+        'Seeded with random color palette',
+        `Seeded avatars with a random color palette.
+        These will look exactly the same as long as the seeds don\'t change.
+        The color palette is random but stable because it's bound to the respective seed.`,
+        Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
+        {
+          size: 100,
+          noCache: true,
+        }
+      );
 
-      // unseeded, random colors
-      container = document.getElementById('unseeded-rnd-col');
-      seeds.forEach((_) => container.appendChild(getImgElement(undefined, undefined, 100, true)));
+      addAvatarGallery(
+        'Unseeded with random color palette',
+        `Random avatars with a random color palette.
+        These will look completely different each time they are created.`,
+        Array.from(Array(10).keys()).map((_) => undefined),
+        {
+          size: 100,
+          noCache: true,
+        }
+      );
+
+      addAvatarGallery(
+        'Low complexity',
+        `Low complexity (2) seeded avatars with a custom color palette.
+        These will look exactly the same as long as the seeds don\'t change.`,
+        Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
+        {
+          palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
+          size: 100,
+          noCache: true,
+          complexity: 2,
+        }
+      );
+
+      addAvatarGallery(
+        'High complexity',
+        `High complexity (8) seeded avatars with a custom color palette.
+        These will look exactly the same as long as the seeds don\'t change.`,
+        Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
+        {
+          palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
+          size: 100,
+          noCache: true,
+          complexity: 8,
+        }
+      );
     </script>
   </body>
 </html>

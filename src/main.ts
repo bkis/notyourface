@@ -5,11 +5,13 @@ const _cache: Map<string, string> = new Map();
  */
 
 type Modify<T, R> = Omit<T, keyof R> & R;
+type ComplexityRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 interface NYFOptions {
   seed?: unknown;
   size?: number;
   palette?: string[];
+  complexity?: ComplexityRange;
   noCache?: boolean;
   maxCacheSize?: number;
 }
@@ -63,7 +65,7 @@ const _getInt = (min: number = 0, max: number = 100, rnd: () => number) => {
 
 const _getCol = (o: GuaranteedNYFOptions) => {
   if (o.palette?.length) {
-    return _rotate(o.palette) ?? '#fff';
+    return _rotateArr(o.palette) ?? '#fff';
   } else {
     // return (seed-stable) random color
     return (
@@ -85,7 +87,7 @@ const _shuffle = <T>(arr: Array<T>, rnd: () => number) => {
   return arr;
 };
 
-const _rotate = <T>(arr: Array<T>) => {
+const _rotateArr = <T>(arr: Array<T>) => {
   const v = arr.pop();
   if (v) arr.unshift(v);
   return v;
@@ -99,6 +101,7 @@ const _getOptions = (o?: NYFOptions) => {
     seed,
     rnd,
     palette,
+    complexity: o?.complexity ?? 4,
     size: o?.size ?? 128,
     noCache: o?.noCache ?? false,
     maxCacheSize: o?.maxCacheSize ?? 1024,
@@ -113,12 +116,15 @@ const _drawSquare = (
   ctx.fillStyle = _getCol(o);
   const size = _getInt(o.size * 0.5 * sizeMod, o.size * sizeMod, o.rnd);
   const posMod = size / 2;
-  ctx.fillRect(
-    _getInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.rnd),
-    _getInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.rnd),
-    size,
-    size
-  );
+  const x = _getInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.rnd);
+  const y = _getInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.rnd);
+  const xTrans = x + size / 2;
+  const yTrans = y + size / 2;
+  ctx.translate(xTrans, yTrans);
+  ctx.rotate(_getInt(0, 360, o.rnd));
+  ctx.translate(-xTrans, -yTrans);
+  ctx.fillRect(x, y, size, size);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
 };
 
 const _drawCircle = (
@@ -149,14 +155,19 @@ const _generate = (o: GuaranteedNYFOptions) => {
   canvas.width = o.size;
   canvas.height = o.size;
   const ctx = canvas.getContext('2d');
-  if (!ctx) throw Error('Could not get canvas context.');
+  if (!ctx) return canvas.toDataURL('image/png');
   // background
   ctx.fillStyle = _getCol(o);
   ctx.fillRect(0, 0, o.size, o.size);
-  _drawSquare(ctx, o, 1.0); // some square
-  _drawCircle(ctx, o, 0.8); // some circle
-  _drawSquare(ctx, o, 0.6); // some square
-  _drawCircle(ctx, o, 0.4); // some circle
+  // define available draw actions
+  const actions: ((sizeMod: number) => void)[] = [
+    (sizeMod) => _drawCircle(ctx, o, sizeMod),
+    (sizeMod) => _drawSquare(ctx, o, sizeMod),
+  ];
+  // draw objects, count depends on complexity option value
+  for (let i = 1; i <= o.complexity; i++) {
+    actions[i % actions.length](1.25 - i / o.complexity);
+  }
   return canvas.toDataURL('image/png');
 };
 
