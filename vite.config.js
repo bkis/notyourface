@@ -17,7 +17,7 @@ export default defineConfig({
     dts({
       bundleTypes: true,
       tsconfigPath: './tsconfig.json',
-      include: ['lib/'],
+      include: ['src/'],
     }),
   ],
 });
