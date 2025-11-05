@@ -61,32 +61,47 @@ const _getInt = (min: number = 0, max: number = 100, rnd: () => number) => {
   return Math.floor(span * rnd()) + Math.ceil(min);
 };
 
-const _pick = <T>(arr: T[], rnd: () => number) => {
-  return arr[_getInt(0, arr.length - 1, rnd)];
-};
-
-const _getCol = (rnd: () => number, palette?: string[]) => {
-  if (palette?.length) {
-    return _pick(palette, rnd);
+const _getCol = (o: GuaranteedNYFOptions) => {
+  if (o.palette?.length) {
+    return _rotate(o.palette) ?? '#fff';
   } else {
+    // return (seed-stable) random color
     return (
       '#' +
-      _getInt(0, 0xfffff * 1000000, rnd)
+      _getInt(0, 0xfffff * 1000000, o.rnd)
         .toString(16)
         .slice(0, 6)
     );
   }
 };
 
+const _shuffle = <T>(arr: Array<T>, rnd: () => number) => {
+  let currentIndex = arr.length;
+  while (currentIndex != 0) {
+    const randomIndex = Math.floor(rnd() * currentIndex);
+    currentIndex--;
+    [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
+  }
+  return arr;
+};
+
+const _rotate = <T>(arr: Array<T>) => {
+  const v = arr.pop();
+  if (v) arr.unshift(v);
+  return v;
+};
+
 const _getOptions = (o?: NYFOptions) => {
   const seed = _seedStr(o?.seed ?? Math.random().toString());
+  const rnd = _getRndFn(_seedInt(seed));
+  const palette = o?.palette?.length ? _shuffle(o.palette, rnd) : undefined;
   return {
     seed,
+    rnd,
+    palette,
     size: o?.size ?? 128,
     noCache: o?.noCache ?? false,
     maxCacheSize: o?.maxCacheSize ?? 1024,
-    palette: o?.palette,
-    rnd: _getRndFn(_seedInt(seed)),
   } as GuaranteedNYFOptions;
 };
 
@@ -95,7 +110,7 @@ const _drawSquare = (
   o: GuaranteedNYFOptions,
   sizeMod: number = 1
 ) => {
-  ctx.fillStyle = _getCol(o.rnd, o.palette);
+  ctx.fillStyle = _getCol(o);
   const size = _getInt(o.size * 0.5 * sizeMod, o.size * sizeMod, o.rnd);
   const posMod = size / 2;
   ctx.fillRect(
@@ -121,7 +136,7 @@ const _drawCircle = (
     0,
     2 * Math.PI
   );
-  ctx.fillStyle = _getCol(o.rnd, o.palette);
+  ctx.fillStyle = _getCol(o);
   ctx.fill();
 };
 
@@ -136,7 +151,7 @@ const _generate = (o: GuaranteedNYFOptions) => {
   const ctx = canvas.getContext('2d');
   if (!ctx) throw Error('Could not get canvas context.');
   // background
-  ctx.fillStyle = _getCol(o.rnd, o.palette);
+  ctx.fillStyle = _getCol(o);
   ctx.fillRect(0, 0, o.size, o.size);
   _drawSquare(ctx, o, 1.0); // some square
   _drawCircle(ctx, o, 0.8); // some circle
