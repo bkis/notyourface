@@ -15,7 +15,6 @@ export default defineConfig({
   },
   plugins: [
     dts({
-      bundleTypes: true,
       tsconfigPath: './tsconfig.json',
       include: ['src/'],
     }),
