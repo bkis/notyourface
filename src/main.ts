@@ -40,11 +40,12 @@ const _pick = <T>(arr: T[], seed: string) => {
   return arr[_getInt(0, arr.length - 1, seed)];
 };
 
-const _rndCol = (seed?: string) => {
-  return (
-    '#' +
-    Math.floor(seed != null ? _seedInt(seed) % 16777215 : Math.random() * 16777215).toString(16)
-  );
+const _getCol = (seed?: string) => {
+  if (seed) {
+    return '#' + (_seedInt(seed) % 16777215).toString(16);
+  } else {
+    return '#' + (Math.random() * 16777215).toString(16);
+  }
 };
 
 const _generate = (o: GuaranteedNYFOptions) => {
@@ -84,7 +85,7 @@ const _getOptions = (o?: NYFOptions) => {
   return {
     seed,
     scale: o?.scale ?? 256,
-    palette: o?.palette ?? Array.from(Array(5).keys()).map((k) => _rndCol(k + seed + k)),
+    palette: o?.palette ?? Array.from(Array(5).keys()).map((k) => _getCol(k + seed + k)),
     noCache: o?.noCache ?? false,
     maxCacheSize: o?.maxCacheSize ?? 1024,
   } as GuaranteedNYFOptions;
