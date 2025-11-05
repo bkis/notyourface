@@ -7,9 +7,12 @@
   </head>
   <body>
     <div id="app"></div>
+
     <script type="module">
-      import { getAvatarImgTags } from './index.ts';
-      getAvatarImgTags().forEach((imgEl) => {
+      import { getImgElements } from './index.ts';
+
+      const seeds = Array.from('abcdefghijklmnopqrstvwxyz0123456789');
+      getImgElements(seeds).forEach((imgEl) => {
         imgEl.style.margin = '8px';
         document.getElementById('app').appendChild(imgEl);
       });

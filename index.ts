@@ -1,3 +1,4 @@
 import nyf from './src/main.ts';
-export const getAvatarImgTags = () =>
-  Array.from('abcdefghijklmnopqrstvwxyz0123456789').map((c) => nyf.imgEl({ seed: c, scale: 128 }));
+
+export const getImgElements = (seeds: string[]) =>
+  seeds.map((seed) => nyf.imgEl({ seed, scale: 128 }));
