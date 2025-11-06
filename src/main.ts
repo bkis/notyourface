@@ -4,14 +4,14 @@
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 type ComplexityValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-type ObjectType = 'square' | 'circle' | 'triangle';
+type ShapeName = 'square' | 'circle';
 
 interface NYFOptions {
   seed?: unknown;
   size?: number;
   palette?: string[];
   complexity?: ComplexityValue;
-  objects?: ObjectType[];
+  shapes?: ShapeName[];
   noCache?: boolean;
   maxCacheSize?: number;
 }
@@ -21,7 +21,7 @@ type GuaranteedNYFOptions = Modify<
   {
     seed: string;
     palette?: string[];
-    objects?: ObjectType[];
+    shapes?: ShapeName[];
     rnd: () => number;
   }
 >;
@@ -104,7 +104,7 @@ const _processOptions = (o?: NYFOptions) => {
     palette,
     complexity: o?.complexity ?? 4,
     size: o?.size ?? 128,
-    objects: o?.objects?.length ? [...new Set(o.objects)] : undefined,
+    shapes: o?.shapes?.length ? [...new Set(o.shapes)] : undefined,
     noCache: o?.noCache ?? false,
     maxCacheSize: o?.maxCacheSize ?? 1024,
   } as GuaranteedNYFOptions;
@@ -162,12 +162,12 @@ const _generate = (o: GuaranteedNYFOptions) => {
   ctx.fillStyle = _getCol(o);
   ctx.fillRect(0, 0, o.size, o.size);
   // define available draw actions
-  type ObjectDrawAction = { type: ObjectType; fn: (sm: number) => void };
-  const actions: ObjectDrawAction[] = [
-    { type: 'circle' as ObjectType, fn: (sm: number) => _drawCircle(ctx, o, sm) },
-    { type: 'square' as ObjectType, fn: (sm: number) => _drawSquare(ctx, o, sm) },
-  ].filter((a: ObjectDrawAction) => !o.objects?.length || o.objects.includes(a.type));
-  // draw objects, count depends on complexity option value
+  type ShapeDrawAction = { type: ShapeName; fn: (sm: number) => void };
+  const actions: ShapeDrawAction[] = [
+    { type: 'circle' as ShapeName, fn: (sm: number) => _drawCircle(ctx, o, sm) },
+    { type: 'square' as ShapeName, fn: (sm: number) => _drawSquare(ctx, o, sm) },
+  ].filter((a: ShapeDrawAction) => !o.shapes?.length || o.shapes.includes(a.type));
+  // draw shapes, count depends on complexity option value
   for (let i = 1; i <= o.complexity; i++) {
     actions[i % actions.length].fn(1.25 - i / o.complexity);
   }
