@@ -12,6 +12,7 @@
         font-family: sans-serif;
         font-size: 16px;
         padding: 16px;
+        line-height: 1.6em;
       }
       h1 {
         margin-top: 0;
@@ -45,12 +46,14 @@
     <h1>notyourface</h1>
     <p>
       All avatar images are square-shaped.<br />
-      The round(ed) ones are just styled with
+      The round(ed) ones are simply styled with
       <code>border-radius: 50%</code> or <code>border-radius: 25%</code>.
     </p>
 
     <script type="module">
       import nyf from './src/main.ts';
+
+      const size = 100;
 
       const addAvatarGallery = (heading, description, seeds, options) => {
         // heading
@@ -66,7 +69,17 @@
         gallery.classList.add('avt-gallery');
         document.body.appendChild(gallery);
         // avatars
-        seeds.forEach((seed) => gallery.appendChild(nyf.imgEl({ seed, ...options })));
+        seeds.forEach((seed, i) =>
+          gallery.appendChild(
+            nyf.imgEl(
+              { seed, ...options },
+              {
+                title: `${heading} #${i + 1} – SEED: ${seed ?? 'random'}`,
+                alt: `${heading} #${i + 1}`,
+              }
+            )
+          )
+        );
       };
 
       addAvatarGallery(
@@ -75,8 +88,8 @@
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
+          size,
           palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
-          size: 100,
           noCache: true,
         }
       );
@@ -88,8 +101,8 @@
         but the colors palette used stays the same.`,
         Array.from(Array(10).keys()).map((_) => undefined),
         {
+          size,
           palette: ['#004030', '#4A9782', '#DCD0A8', '#FFF9E5'],
-          size: 100,
           noCache: true,
         }
       );
@@ -101,7 +114,7 @@
         The color palette is random but stable because it's bound to the respective seed.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
-          size: 100,
+          size,
           noCache: true,
         }
       );
@@ -112,60 +125,60 @@
         These will look completely different each time they are created.`,
         Array.from(Array(10).keys()).map((_) => undefined),
         {
-          size: 100,
+          size,
           noCache: true,
         }
       );
 
       addAvatarGallery(
-        'Low complexity',
+        'Low complexity, seeded with fixed color palette',
         `Low complexity (2) seeded avatars with a custom color palette.
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
+          size,
           palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
-          size: 100,
           noCache: true,
           complexity: 2,
         }
       );
 
       addAvatarGallery(
-        'High complexity',
-        `High complexity (8) seeded avatars with a custom color palette.
+        'High complexity, seeded with fixed color palette',
+        `High complexity (10) seeded avatars with a custom color palette.
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
+          size,
           palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
-          size: 100,
           noCache: true,
-          complexity: 8,
+          complexity: 10,
         }
       );
 
       addAvatarGallery(
-        'Only circles',
+        'Only circles, seeded with fixed color palette',
         `Seeded avatars made exclusively of circles with a custom color palette.
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
+          size,
           palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
-          size: 100,
-          noCache: true,
           objects: ['circle'],
+          noCache: true,
         }
       );
 
       addAvatarGallery(
-        'Only squares',
+        'Only squares, seeded with fixed color palette',
         `Seeded avatars made exclusively of squares with a custom color palette.
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
+          size,
           palette: ['#450693', '#8C00FF', '#FF3F7F', '#FFC400'],
-          size: 100,
-          noCache: true,
           objects: ['square'],
+          noCache: true,
         }
       );
     </script>

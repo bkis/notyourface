@@ -94,7 +94,7 @@ const _rotateArr = <T>(arr: Array<T>) => {
   return v;
 };
 
-const _getOptions = (o?: NYFOptions) => {
+const _processOptions = (o?: NYFOptions) => {
   const seed = _seedStr(o?.seed ?? Math.random().toString());
   const rnd = _getRndFn(_seedInt(seed));
   const palette = o?.palette?.length ? _shuffle(o.palette, rnd) : undefined;
@@ -187,7 +187,7 @@ const _cache: Map<string, string> = new Map();
 const nyf = {
   dataURL(options?: NYFOptions): string {
     // populate options object to work with
-    const o = _getOptions(options);
+    const o = _processOptions(options);
     if (o.size > 256)
       console.warn(
         `Be careful with the size of your avatars. Due to performance reasons, the maximum recommended size is 256px.`
@@ -205,9 +205,15 @@ const nyf = {
     }
     return dataURL;
   },
-  imgEl(options?: NYFOptions): HTMLImageElement {
+  imgEl(options?: NYFOptions, attrs?: Record<string, string>): HTMLImageElement {
     const el = document.createElement('img');
     el.src = nyf.dataURL(options);
+    // apply additional element attributes
+    if (attrs) {
+      Object.keys(attrs).forEach((key) => {
+        el.setAttribute(key, attrs[key]);
+      });
+    }
     return el;
   },
 };
