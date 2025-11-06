@@ -185,7 +185,7 @@ const _cache: Map<string, string> = new Map();
  */
 
 const nyf = {
-  dataURL(options?: NYFOptions): string {
+  dataURI(options?: NYFOptions): string {
     // populate options object to work with
     const o = _processOptions(options);
     if (o.size > 256)
@@ -197,17 +197,17 @@ const nyf = {
     if (!o.noCache && _cache.has(o.seed)) {
       return _cache.get(o.seed) as string;
     }
-    // generate new avatar data URL
-    const dataURL = _generate(o);
+    // generate new avatar data URI
+    const dataURI = _generate(o);
     // write to cache (if cache usage isn't disabled in options)
     if (!o.noCache && _cache.size < o.maxCacheSize) {
-      _cache.set(o.seed, dataURL);
+      _cache.set(o.seed, dataURI);
     }
-    return dataURL;
+    return dataURI;
   },
   imgEl(options?: NYFOptions, attrs?: Record<string, string>): HTMLImageElement {
     const el = document.createElement('img');
-    el.src = nyf.dataURL(options);
+    el.src = nyf.dataURI(options);
     // apply additional element attributes
     if (attrs) {
       Object.keys(attrs).forEach((key) => {
