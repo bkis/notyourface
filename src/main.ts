@@ -1,18 +1,16 @@
-const _cache: Map<string, string> = new Map();
-
 /**
  * TYPES
  */
 
 type Modify<T, R> = Omit<T, keyof R> & R;
-type ComplexityRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+type ComplexityValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 type ObjectType = 'square' | 'circle' | 'triangle';
 
 interface NYFOptions {
   seed?: unknown;
   size?: number;
   palette?: string[];
-  complexity?: ComplexityRange;
+  complexity?: ComplexityValue;
   objects?: ObjectType[];
   noCache?: boolean;
   maxCacheSize?: number;
@@ -175,6 +173,12 @@ const _generate = (o: GuaranteedNYFOptions) => {
   }
   return canvas.toDataURL('image/png');
 };
+
+/**
+ * SIMPLE SHORT-TERM MEMORY
+ */
+
+const _cache: Map<string, string> = new Map();
 
 /**
  * EXTERNAL API
