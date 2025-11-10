@@ -4,6 +4,7 @@
   "description": "Deterministically generated avatar images. Pretty, simple and lightweight.",
   "version": "1.0.1",
   "type": "module",
+  "license": "MIT",
   "files": [
     "/dist"
   ],
