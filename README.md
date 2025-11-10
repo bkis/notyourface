@@ -21,13 +21,13 @@
 ## Features
 
 - 👩‍💻 **Simple** but efficient API, typed with **TypeScript**
-- 🌈 Fixed, **custom color palettes** or colorful **randomness**
+- 🎨 Fixed, **custom color palettes** or colorful **randomness**
 - 🌱 **Deterministic** (same seed == same image)
-- 📦 Only ~3kb (**~1.5kb** gzipped)
+- 📦 Only **~1.3kb** gzipped
 - ⚡ Works **client-side** (in the browser) and **caches** up to `n` generated avatar images (`1024` by default)
 - 🛠 Configurable **complexity**, **size**, **shape types**, ...
 - 🐧 **No runtime dependencies** (as in _zero_, _none_, ...wait, why is there a penguin?!)
-- 🖼 Returns _encoded image data_ as a [data URI](https://en.wikipedia.org/wiki/Data_URI_scheme) for use as `<img src="...">` or CSS `background-image: url(...)` **or** returns a ready-to-use `img` HTML element
+- 🖼 Returns _encoded image data_ as a [data URI](https://en.wikipedia.org/wiki/Data_URI_scheme), e.g. for direct use as `<img src="...">` or CSS `background-image: url(...)` **or** returns a ready-to-use `img` HTML element – so no DOM manipulations by the library, it's all up to you!
 - 🤖 **no AI** involved nor required (in case you were concerned)
 
 ## Usage
@@ -38,10 +38,14 @@ import nyf from 'notyourface';
 // To get a data URI string, call `dataURI`.
 // Optionally, pass some options (see below!).
 const dataUri = nyf.dataURI({ seed: 'my.email@example.com' });
+// So you can do something like this:
+// someImgElement.src = dataUri;
+// ...or this:
+// someElement.style.backgroundImage = `url(${dataUri})`;
 
-// Or, get an <img> element, call `imgEl`.
-// Optionally, pass some options (see below!)
-// and/or attributes you want to be set on the element.
+// ...OR, to get an <img> element right away, call `imgEl`.
+// Optionally, pass some options (see below!) and/or
+// attributes you want to be set on the element.
 const imgEl = nyf.imgEl({ seed: 'my.email@example.com' }, { class: 'my-avatar' });
 ```
 
@@ -127,7 +131,7 @@ The types of shapes that will be drawn onto the avatar image. This is a way to e
 
 If not set, all types will be used.
 
-💡 No, this does not determine the shape of the generated image. There are no circular images, duh!
+💡 No, this does not determine the shape of the generated image. There are no circular digital images. But you can always style your `<img>` element to be circular with `border-radius: 50%` or make it blurry using `filter: blur(2px)`, or whatever you like.
 
 #### Examples
 
@@ -148,6 +152,7 @@ The number of avatar images to cache in memory.
 As this library was developed with an optimistic attitude, negative values will simply be turned into their positive counterparts (so the absolute value is used).
 
 ❗ A value of `0` will completely disable the cache for this call, so **it will neither be read from nor written to**.
+
 
 ## Contributing
 
