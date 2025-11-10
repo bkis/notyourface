@@ -13,7 +13,6 @@ export default defineConfig({
       fileName: 'notyourface',
     },
     manifest: true,
-    sourcemap: true,
     emptyOutDir: true,
     chunkSizeWarningLimit: 5,
   },
