@@ -1,9 +1,20 @@
 # notyourface
 
-**notyourface** deterministically generates random but stable avatar images from any input seed. Like a configurable hash function that produces funky little images. Your face is beautiful! But sometimes you need the next best thing.
-
 [![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](#)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)
+
+**notyourface** deterministically generates random but stable avatar images from any input seed. Like a configurable hash function that produces funky little images. Your face is beautiful! But sometimes you need the next best thing.
+
+![](docs/assets/example_small_01.png)
+![](docs/assets/example_small_02.png)
+![](docs/assets/example_small_03.png) \
+![](docs/assets/example_small_04.png)
+![](docs/assets/example_small_05.png)
+![](docs/assets/example_small_06.png) \
+![](docs/assets/example_small_07.png)
+![](docs/assets/example_small_08.png)
+![](docs/assets/example_small_09.png)
+
 
 ## Features
 
@@ -93,10 +104,7 @@ As this library was developed with an optimistic attitude, negative values will 
 
 ⚠ A value of `0` will completely disable the cache for this call, so **it will neither be read from nor written to**.
 
-## Examples
-
-...
 
 ## Contributing
 
-...
+Please see the [contributing guidelines](CONTRIBUTING.md).
