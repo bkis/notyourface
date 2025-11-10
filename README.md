@@ -8,15 +8,15 @@
 
 **notyourface** deterministically generates random but stable avatar images from any input seed. Like a configurable hash function that produces funky little images. Your face is beautiful! But sometimes you need the next best thing.
 
-![](.docs/assets/example_header_01.png)
-![](.docs/assets/example_header_02.png)
-![](.docs/assets/example_header_03.png) \
-![](.docs/assets/example_header_04.png)
-![](.docs/assets/example_header_05.png)
-![](.docs/assets/example_header_06.png) \
-![](.docs/assets/example_header_07.png)
-![](.docs/assets/example_header_08.png)
-![](.docs/assets/example_header_09.png)
+![](./docs/assets/example_header_01.png)
+![](./docs/assets/example_header_02.png)
+![](./docs/assets/example_header_03.png) \
+![](./docs/assets/example_header_04.png)
+![](./docs/assets/example_header_05.png)
+![](./docs/assets/example_header_06.png) \
+![](./docs/assets/example_header_07.png)
+![](./docs/assets/example_header_08.png)
+![](./docs/assets/example_header_09.png)
 
 (for more examples, see the [Configuration](#configuration) section!)
 
@@ -89,9 +89,9 @@ The size of the generated avatar image **in pixels**. As they are square-shaped,
 
 Avatar images with `size` values of `64`, `128` and `256`:
 
-![](.docs/assets/example_size_01.png)
-![](.docs/assets/example_size_02.png)
-![](.docs/assets/example_size_03.png)
+![](./docs/assets/example_size_01.png)
+![](./docs/assets/example_size_02.png)
+![](./docs/assets/example_size_03.png)
 
 ### `palette`
 
@@ -112,12 +112,12 @@ Two different custom color palettes in action. In this case :
 - `['#134686', '#ED3F27', '#FEB21A', '#FDF4E3']` and
 - `['#004030', '#4A9782', '#DCD0A8', '#FFF9E5']`
 
-![](.docs/assets/example_palette_01a.png)
-![](.docs/assets/example_palette_01b.png)
-![](.docs/assets/example_palette_01c.png) \
-![](.docs/assets/example_palette_02a.png)
-![](.docs/assets/example_palette_02b.png)
-![](.docs/assets/example_palette_02c.png)
+![](./docs/assets/example_palette_01a.png)
+![](./docs/assets/example_palette_01b.png)
+![](./docs/assets/example_palette_01c.png) \
+![](./docs/assets/example_palette_02a.png)
+![](./docs/assets/example_palette_02b.png)
+![](./docs/assets/example_palette_02c.png)
 
 ### `complexity`
 
@@ -130,16 +130,16 @@ The number of shapes that will be drawn. This makes for the overall perceived co
 
 Complexity values from 1 to 10:
 
-![](.docs/assets/example_complexity_01.png)
-![](.docs/assets/example_complexity_02.png)
-![](.docs/assets/example_complexity_03.png)
-![](.docs/assets/example_complexity_04.png)
-![](.docs/assets/example_complexity_05.png)
-![](.docs/assets/example_complexity_06.png)
-![](.docs/assets/example_complexity_07.png)
-![](.docs/assets/example_complexity_08.png)
-![](.docs/assets/example_complexity_09.png)
-![](.docs/assets/example_complexity_10.png)
+![](./docs/assets/example_complexity_01.png)
+![](./docs/assets/example_complexity_02.png)
+![](./docs/assets/example_complexity_03.png)
+![](./docs/assets/example_complexity_04.png)
+![](./docs/assets/example_complexity_05.png)
+![](./docs/assets/example_complexity_06.png)
+![](./docs/assets/example_complexity_07.png)
+![](./docs/assets/example_complexity_08.png)
+![](./docs/assets/example_complexity_09.png)
+![](./docs/assets/example_complexity_10.png)
 
 ### `shapes`
 
@@ -156,10 +156,10 @@ If not set, all types will be used.
 
 Only `['circle']` or only `['square']`:
 
-![](.docs/assets/example_shapes_01.png)
-![](.docs/assets/example_shapes_02.png)
-![](.docs/assets/example_shapes_03.png)
-![](.docs/assets/example_shapes_04.png)
+![](./docs/assets/example_shapes_01.png)
+![](./docs/assets/example_shapes_02.png)
+![](./docs/assets/example_shapes_03.png)
+![](./docs/assets/example_shapes_04.png)
 
 ### `cache`
 
