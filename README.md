@@ -52,7 +52,7 @@ All options are, as the name suggests, optional.
 - Type: `unknown` (optional)
 - Default: A random seed.
 
-Optional seed (can be anything: a string, a number, an object, etc.). The output will be stable as long as the same seed (with the same set of other options) is used.
+Optional seed (can be anything: a string, a number, an object, etc.). The output will be stable as long as the same seed is used (with the same set of other options).
 
 ### `size`
 
@@ -69,11 +69,11 @@ The size of the generated avatar image **in pixels**. As they are square-shaped,
 - Default: `undefined`
 - Example: `['#F00', 'lime', 'rgba(0, 0, 255, 1.0)']`
 
-A custom color palette to use. The string values can be any valid CSS color string. Using less than two colors here won't make much sense, think about it.
+A custom color palette to use. The string values can be any valid CSS color string. Using less than two colors here won't make much sense (think about it!).
 
 If no custom color palette is set, random colors will be used.
 
-⚠ If a `seed` is given, a "random" color palette will be the same for each call using this seed! _Not so random after all!_
+⚠ If a `seed` is given, a "random" color palette will be stable a.k.a. the same for each call using this seed! _Not so random after all!_
 
 ### `complexity`
 
