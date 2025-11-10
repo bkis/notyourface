@@ -22,10 +22,13 @@
 ```js
 import nyf from 'notyourface';
 
-// get a data URI string
+// To get a data URI string, call `dataURI`.
+// Optionally, pass some options (see below!).
 const dataUri = nyf.dataURI({ seed: 'my.email@example.com' });
 
-// ...or get an <img> element
+// Or, get an <img> element, call `imgEl`.
+// Optionally, pass some options (see below!)
+// and/or attributes you want to be set on the element.
 const imgEl = nyf.imgEl({ seed: 'my.email@example.com' }, { class: 'my-avatar' });
 ```
 
