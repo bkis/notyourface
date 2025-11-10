@@ -30,6 +30,16 @@
 - 🖼 Returns _encoded image data_ as a [data URI](https://en.wikipedia.org/wiki/Data_URI_scheme), e.g. for direct use as `<img src="...">` or CSS `background-image: url(...)` **or** returns a ready-to-use `img` HTML element – so no DOM manipulations by the library, it's all up to you!
 - 🤖 **no AI** involved nor required (in case you were concerned)
 
+
+## Installation
+
+You got this. Something like...
+
+```sh
+npm install notyourface
+```
+
+
 ## Usage
 
 ```js
@@ -91,7 +101,10 @@ If no custom color palette is set, random colors will be used.
 
 #### Examples
 
-Two different custom color palettes in action (in this case `['#134686', '#ED3F27', '#FEB21A', '#FDF4E3']` and `['#004030', '#4A9782', '#DCD0A8', '#FFF9E5']`):
+Two different custom color palettes in action. In this case :
+
+- `['#134686', '#ED3F27', '#FEB21A', '#FDF4E3']` and
+- `['#004030', '#4A9782', '#DCD0A8', '#FFF9E5']`
 
 ![](docs/assets/example_palette_01a.png)
 ![](docs/assets/example_palette_01b.png)
