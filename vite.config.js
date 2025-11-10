@@ -12,6 +12,10 @@ export default defineConfig({
       name: 'notyourface',
       fileName: 'notyourface',
     },
+    manifest: true,
+    sourcemap: true,
+    emptyOutDir: true,
+    chunkSizeWarningLimit: 5,
   },
   plugins: [
     dts({
