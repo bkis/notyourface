@@ -1,10 +1,10 @@
 # notyourface
 
 [![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](#)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)
-![gzip: 1.31 kB](https://img.shields.io/badge/gzip-1.31_kB-green)
-![license: MIT](https://img.shields.io/badge/license-MIT-blue)
-![dependencies: none](https://img.shields.io/badge/dependencies-none-lightgray)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](#)
+[![gzip: 1.31 kB](https://img.shields.io/badge/gzip-1.31_kB-green)](#)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue)](#)
+[![dependencies: none](https://img.shields.io/badge/dependencies-none-lightgray)](#)
 
 **notyourface** deterministically generates random but stable avatar images from any input seed. Like a configurable hash function that produces funky little images. Your face is beautiful! But sometimes you need the next best thing.
 
