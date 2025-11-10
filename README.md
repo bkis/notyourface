@@ -32,11 +32,9 @@
 - 🖼 Returns _encoded image data_ as a [data URI](https://en.wikipedia.org/wiki/Data_URI_scheme), e.g. for direct use as `<img src="...">` or CSS `background-image: url(...)` **or** returns a ready-to-use `img` HTML element – so no DOM manipulations by the library, it's all up to you!
 - 🤖 **no AI** involved nor required (in case you were concerned)
 
-
 ## Why?
 
 I wasn't satisfied with any of the comparable existing libraries. They were either too complicated and heavy, too focused on a specific technological context (a framework or library), or just didn't produce the aesthetics I was looking for. So I built this.
-
 
 ## Installation
 
@@ -45,7 +43,6 @@ You got this. Something like...
 ```sh
 npm install notyourface
 ```
-
 
 ## Usage
 
@@ -173,7 +170,16 @@ As this library was developed with an optimistic attitude, negative values will 
 
 ❗ A value of `0` will completely disable the cache for this call, so **it will neither be read from nor written to**.
 
-
 ## Contributing
 
 Please see the [contributing guidelines](CONTRIBUTING.md).
+
+## Development
+
+Use the following `npm` scripts in development:
+
+- `npm run lint`: Runs ESLint with `--fix` flag.
+- `npm run format`: Runs Prettier with `--write` flag.
+- `npm run fix`: Runs both `lint` and `format` scripts.
+- `npm run dev`: Starts the development server. Visit `http://localhost:5173` afterwards to see the development page that hot-reloads and reflects the current state of the source live.
+- `npm run build`: Runs the `fix` script, `tsc`, and `vite build` in sequence.
