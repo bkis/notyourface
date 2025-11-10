@@ -61,7 +61,7 @@ Optional seed (can be anything: a string, a number, an object, etc.). The output
 
 The size of the generated avatar image **in pixels**. As they are square-shaped, this will be both the width and height.
 
-⚠ Be very careful with the size of the generated images. The larger the size, the longer it will take to generate the images. Also, as the cache will store the images in memory, larger images will take up more memory when cached. A maximum `size` value of more or less `256` is recommended. Of course, this greatly depends on where and how you are using this.
+❗ Be very careful with the size of the generated images. The larger the size, the longer it will take to generate the images. Also, as the cache will store the images in memory, larger images will take up more memory when cached. A maximum `size` value of more or less `256` is recommended. Of course, this greatly depends on where and how you are using this.
 
 ### `palette`
 
@@ -73,7 +73,7 @@ A custom color palette to use. The string values can be any valid CSS color stri
 
 If no custom color palette is set, random colors will be used.
 
-⚠ If a `seed` is given, a "random" color palette will be stable a.k.a. the same for each call using this seed! _Not so random after all!_
+❗ If a `seed` is given, a "random" color palette will be stable a.k.a. the same for each call using this seed! _Not so random after all!_
 
 ### `complexity`
 
@@ -102,7 +102,7 @@ The number of avatar images to cache in memory.
 
 As this library was developed with an optimistic attitude, negative values will simply be turned into their positive counterparts (so the absolute value is used).
 
-⚠ A value of `0` will completely disable the cache for this call, so **it will neither be read from nor written to**.
+❗ A value of `0` will completely disable the cache for this call, so **it will neither be read from nor written to**.
 
 
 ## Contributing
