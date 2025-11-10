@@ -1,6 +1,6 @@
 # notyourface
 
-[![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](#)
+[![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](https://www.npmjs.com/package/notyourface)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](#)
 [![gzip: 1.31 kB](https://img.shields.io/badge/gzip-1.31_kB-green)](#)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue)](#)
