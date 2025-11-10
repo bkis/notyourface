@@ -12,8 +12,7 @@ interface NYFOptions {
   palette?: string[];
   complexity?: ComplexityValue;
   shapes?: ShapeName[];
-  noCache?: boolean;
-  maxCacheSize?: number;
+  cache?: number;
 }
 
 type GuaranteedNYFOptions = Modify<
@@ -105,8 +104,7 @@ const _processOptions = (o?: NYFOptions) => {
     complexity: o?.complexity ?? 4,
     size: o?.size ?? 128,
     shapes: o?.shapes?.length ? [...new Set(o.shapes)] : undefined,
-    noCache: o?.noCache ?? false,
-    maxCacheSize: o?.maxCacheSize ?? 1024,
+    cache: o?.cache != null ? Math.abs(o.cache) : 1024,
   } as GuaranteedNYFOptions;
 };
 
@@ -194,13 +192,13 @@ const nyf = {
       );
     // process seed to get something that makes sense as a mapping key
     // check if we can serve from cache (if cache usage isn't disabled in options)
-    if (!o.noCache && _cache.has(o.seed)) {
+    if (!!o.cache && _cache.has(o.seed)) {
       return _cache.get(o.seed) as string;
     }
     // generate new avatar data URI
     const dataURI = _generate(o);
     // write to cache (if cache usage isn't disabled in options)
-    if (!o.noCache && _cache.size < o.maxCacheSize) {
+    if (!!o.cache && _cache.size < o.cache) {
       _cache.set(o.seed, dataURI);
     }
     return dataURI;

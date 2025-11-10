@@ -53,7 +53,7 @@
     <script type="module">
       import nyf from './src/main.ts';
 
-      const size = 100;
+      const size = 48;
 
       const addAvatarGallery = (heading, description, seeds, options) => {
         // heading
@@ -90,7 +90,7 @@
         {
           size,
           palette: ['#134686', '#ED3F27', '#FEB21A', '#FDF4E3'],
-          noCache: true,
+          cache: 0,
         }
       );
 
@@ -103,7 +103,7 @@
         {
           size,
           palette: ['#004030', '#4A9782', '#DCD0A8', '#FFF9E5'],
-          noCache: true,
+          cache: 0,
         }
       );
 
@@ -115,7 +115,7 @@
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
           size,
-          noCache: true,
+          cache: 0,
         }
       );
 
@@ -126,7 +126,7 @@
         Array.from(Array(10).keys()).map((_) => undefined),
         {
           size,
-          noCache: true,
+          cache: 0,
         }
       );
 
@@ -138,7 +138,7 @@
         {
           size,
           palette: ['#F0E491', '#BBC863', '#658C58', '#31694E'],
-          noCache: true,
+          cache: 0,
           complexity: 2,
         }
       );
@@ -151,7 +151,7 @@
         {
           size,
           palette: ['#41A67E', '#05339C', '#1055C9', '#E5C95F'],
-          noCache: true,
+          cache: 0,
           complexity: 10,
         }
       );
@@ -165,7 +165,7 @@
           size,
           palette: ['#1A2A4F', '#F7A5A5', '#FFDBB6', '#FFF2EF'],
           shapes: ['circle'],
-          noCache: true,
+          cache: 0,
         }
       );
 
@@ -178,7 +178,7 @@
           size,
           palette: ['#F25912', '#5C3E94', '#412B6B', '#211832'],
           shapes: ['square'],
-          noCache: true,
+          cache: 0,
         }
       );
     </script>
