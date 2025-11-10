@@ -1,18 +1,24 @@
 {
   "name": "notyourface",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "description": "Deterministically generated avatar images. Pretty, simple and lightweight.",
+  "version": "1.0.1",
   "type": "module",
   "files": [
-    "dist"
+    "/dist"
   ],
-  "main": "./dist/notyourface.umd.cjs",
-  "module": "./dist/notyourface.js",
+  "main": "/dist/notyourface.umd.cjs",
+  "module": "/dist/notyourface.js",
+  "types": "/dist/main.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/main.d.ts",
       "import": "./dist/notyourface.js",
       "require": "./dist/notyourface.umd.cjs"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "dev": "vite",

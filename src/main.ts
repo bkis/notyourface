@@ -62,7 +62,7 @@ function _getRndFn(a: number) {
  * using the given random number generator function.
  */
 const _getInt = (min: number = 0, max: number = 100, rnd: () => number) => {
-  if (max < min) throw Error(`Invalid arguments for min (${min}) and max (${max}).`);
+  if (min > max) throw Error(`min (${min}) > (${max}).`);
   const span = Math.floor(max) + 1 - Math.ceil(min);
   return Math.floor(span * rnd()) + Math.ceil(min);
 };
@@ -201,10 +201,6 @@ const nyf = {
   dataURI(options?: NYFOptions): string {
     // populate options object to work with
     const o = _processOptions(options);
-    if (o.size > 256)
-      console.warn(
-        `Be careful with the size of your avatars. Due to performance reasons, the maximum recommended size is 256px.`
-      );
     // process seed to get something that makes sense as a mapping key
     // check if we can serve from cache (if cache usage isn't disabled in options)
     if (!!o.cache && _cache.has(o.seed)) {

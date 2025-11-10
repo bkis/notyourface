@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    "target": "es2017",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ES2019", "DOM", "DOM.Iterable"],
-    "types": ["vite/client"],
+    "lib": ["ES2017", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "typeRoots": ["./dist/main.d.ts"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
