@@ -18,6 +18,8 @@
 ![](docs/assets/example_header_08.png)
 ![](docs/assets/example_header_09.png)
 
+(for more examples, see the [Configuration](#configuration) section!)
+
 ## Features
 
 - 👩‍💻 **Simple** but efficient API, typed with **TypeScript**
@@ -29,6 +31,11 @@
 - 🐧 **No runtime dependencies** (as in _zero_, _none_, ...wait, why is there a penguin?!)
 - 🖼 Returns _encoded image data_ as a [data URI](https://en.wikipedia.org/wiki/Data_URI_scheme), e.g. for direct use as `<img src="...">` or CSS `background-image: url(...)` **or** returns a ready-to-use `img` HTML element – so no DOM manipulations by the library, it's all up to you!
 - 🤖 **no AI** involved nor required (in case you were concerned)
+
+
+## Why?
+
+I wasn't satisfied with any of the comparable existing libraries. They were either too complicated and heavy, too focused on a specific technological context (a framework or library), or just didn't produce the aesthetics I was looking for. So I built this.
 
 
 ## Installation
@@ -59,7 +66,7 @@ const dataUri = nyf.dataURI({ seed: 'my.email@example.com' });
 const imgEl = nyf.imgEl({ seed: 'my.email@example.com' }, { class: 'my-avatar' });
 ```
 
-## Options
+## Configuration
 
 All options are, as the name suggests, optional.
 
