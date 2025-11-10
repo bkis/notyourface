@@ -52,7 +52,7 @@ import nyf from 'notyourface';
 // To get a data URI string, call `dataURI`.
 // Optionally, pass some options (see below!).
 const dataUri = nyf.dataURI({ seed: 'my.email@example.com' });
-// So you can do something like this:
+// ...so you can do something like this:
 // someImgElement.src = dataUri;
 // ...or this:
 // someElement.style.backgroundImage = `url(${dataUri})`;
@@ -61,6 +61,8 @@ const dataUri = nyf.dataURI({ seed: 'my.email@example.com' });
 // Optionally, pass some options (see below!) and/or
 // attributes you want to be set on the element.
 const imgEl = nyf.imgEl({ seed: 'my.email@example.com' }, { class: 'my-avatar' });
+// ...so you can do this:
+// someElement.appendChild(imgEl);
 ```
 
 ## Configuration
