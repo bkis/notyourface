@@ -53,7 +53,7 @@
     <script type="module">
       import nyf from './src/main.ts';
 
-      const size = 56;
+      const size = 64;
 
       const addAvatarGallery = (heading, description, seeds, options) => {
         // heading
@@ -144,13 +144,12 @@
       );
 
       addAvatarGallery(
-        'High complexity, seeded with fixed color palette',
+        'High complexity, seeded with random color palette',
         `High complexity (10) seeded avatars with a custom color palette.
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
           size,
-          palette: ['#41A67E', '#05339C', '#1055C9', '#E5C95F'],
           cache: 0,
           complexity: 10,
         }
