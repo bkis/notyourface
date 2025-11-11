@@ -141,6 +141,8 @@ Complexity values from 1 to 10:
 ![](./docs/assets/example_complexity_09.png)
 ![](./docs/assets/example_complexity_10.png)
 
+As you can see, we should've realized we're making a huge mistake at around `6`. Maybe `7` and beyond should have never happened. As the shapes are overlapping, it just gets worse at some point.
+
 ### `shapes`
 
 - Type: `Array<'square' | 'circle'>` (optional)
