@@ -8,11 +8,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/main.ts'),
+      entry: resolve(__dirname, 'src/notyourface.ts'),
       name: 'notyourface',
       fileName: 'notyourface',
+      formats: ['es'],
     },
-    manifest: true,
     emptyOutDir: true,
     chunkSizeWarningLimit: 5,
   },

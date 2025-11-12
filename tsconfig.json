@@ -5,7 +5,7 @@
     "module": "ESNext",
     "lib": ["ES2017", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "typeRoots": ["./dist/main.d.ts"],
+    "typeRoots": ["./dist/notyourface.d.ts"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",

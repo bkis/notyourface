@@ -6,16 +6,14 @@
   "type": "module",
   "license": "MIT",
   "files": [
-    "/dist"
+    "dist"
   ],
-  "main": "/dist/notyourface.umd.cjs",
-  "module": "/dist/notyourface.js",
-  "types": "/dist/main.d.ts",
+  "module": "./dist/notyourface.js",
+  "types": "./dist/notyourface.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/main.d.ts",
-      "import": "./dist/notyourface.js",
-      "require": "./dist/notyourface.umd.cjs"
+      "types": "./dist/notyourface.d.ts",
+      "import": "./dist/notyourface.js"
     }
   },
   "publishConfig": {
