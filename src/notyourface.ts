@@ -47,14 +47,12 @@ const _seedInt = (input: unknown) => {
  * Returns a pseudo-random number generator function based on a numerical input seed.
  * (Mulberry32 algorithm, taken from https://stackoverflow.com/a/47593316/7399631)
  */
-function _prng(a: number) {
-  return function () {
-    let t = (a += 0x6d2b79f5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+const _prng = (a: number) => () => {
+  let t = (a += 0x6d2b79f5);
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
 
 /**
  * Returns a random integer between min and max (inclusive)
