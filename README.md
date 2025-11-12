@@ -46,6 +46,10 @@ npm install notyourface
 
 ## Usage
 
+Use it in browser-facing code! The library needs access to the `document` object and the [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) to generate the images.
+
+You have the choice between two function calls. That's it. One gives you a data URI containing encoded PNG image data you can use as a `src` value for an `<img>` element or as a `background-image` in CSS. The other gives you a ready-to-use `<img>` element with optional attributes (with the same encoded PNG data set as `src`, so this second one is just a convenience wrapper around the first).
+
 ```js
 import nyf from 'notyourface';
 
@@ -53,16 +57,16 @@ import nyf from 'notyourface';
 // Optionally, pass some options (see below!).
 const dataUri = nyf.dataURI({ seed: 'my.email@example.com' });
 // ...so you can do something like this:
-// someImgElement.src = dataUri;
+someImgElement.src = dataUri;
 // ...or this:
-// someElement.style.backgroundImage = `url(${dataUri})`;
+someElement.style.backgroundImage = `url(${dataUri})`;
 
 // ...OR, to get an <img> element right away, call `imgEl`.
 // Optionally, pass some options (see below!) and/or
 // attributes you want to be set on the element.
 const imgEl = nyf.imgEl({ seed: 'my.email@example.com' }, { class: 'my-avatar' });
 // ...so you can do this:
-// someElement.appendChild(imgEl);
+someElement.appendChild(imgEl);
 ```
 
 ## Configuration
