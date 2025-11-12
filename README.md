@@ -120,10 +120,14 @@ Two different custom color palettes in action. In this case :
 
 ![](./docs/assets/example_palette_01a.png)
 ![](./docs/assets/example_palette_01b.png)
-![](./docs/assets/example_palette_01c.png) \
+![](./docs/assets/example_palette_01c.png)
+![](./docs/assets/example_palette_01d.png)
+![](./docs/assets/example_palette_01e.png) \
 ![](./docs/assets/example_palette_02a.png)
 ![](./docs/assets/example_palette_02b.png)
 ![](./docs/assets/example_palette_02c.png)
+![](./docs/assets/example_palette_02d.png)
+![](./docs/assets/example_palette_02e.png)
 
 ### `complexity`
 
