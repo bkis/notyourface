@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](https://www.npmjs.com/package/notyourface)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](#)
-[![gzip: 1.31 kB](https://img.shields.io/badge/gzip-1.31_kB-green)](#)
+[![gzip: 1.25 kB](https://img.shields.io/badge/gzip-1.31_kB-green)](#)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue)](#)
 [![dependencies: none](https://img.shields.io/badge/dependencies-none-lightgray)](#)
 
@@ -25,7 +25,7 @@
 - 👩‍💻 **Simple** but efficient API, typed with **TypeScript**
 - 🎨 Fixed, **custom color palettes** or colorful **randomness**
 - 🌱 **Deterministic** (same seed == same image)
-- 📦 Only **~1.3kb** gzipped
+- 📦 Only **~1.25kb** gzipped
 - ⚡ Works **client-side** (in the browser) and **caches** up to `n` generated avatar images (`1024` by default)
 - 🛠 Configurable **complexity**, **size**, **shape types**, ...
 - 🐧 **No runtime dependencies** (as in _zero_, _none_, ...wait, why is there a penguin?!)
@@ -49,7 +49,7 @@ npm install notyourface
 ```js
 import nyf from 'notyourface';
 
-// To get a data URI string, call `dataURI`.
+// To get a PNG data URI string, call `dataURI`.
 // Optionally, pass some options (see below!).
 const dataUri = nyf.dataURI({ seed: 'my.email@example.com' });
 // ...so you can do something like this:
@@ -74,7 +74,9 @@ All options are, as the name suggests, optional.
 - Type: `unknown` (optional)
 - Default: A random seed.
 
-Optional seed (can be anything: a string, a number, an object, etc.). The output will be stable as long as the same seed is used (with the same set of other options).
+An optional (but recommended) seed. This can be anything: A string, a number, an object, etc. The output will be stable as long as the same seed is used with the same set of other options. Please use something that is unique about what the avatar is going to represent, like a username.
+
+Also, whatever you use as a seed input should be JSON-serializable or at least produce a meaningful string representation. Internally, the seed is converted to a string (using `JSON.stringify` or `String(seed)` as a fallback) and then hashed to a number.
 
 ### `size`
 

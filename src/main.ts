@@ -1,10 +1,9 @@
 //// TYPES ////
 
-type Modify<T, R> = Omit<T, keyof R> & R;
 type ComplexityValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 type ShapeName = 'square' | 'circle';
 
-interface NYFOptions {
+interface UserOptions {
   seed?: unknown;
   size?: number;
   palette?: string[];
@@ -13,15 +12,15 @@ interface NYFOptions {
   cache?: number;
 }
 
-type GuaranteedNYFOptions = Modify<
-  Required<NYFOptions>,
-  {
-    seed: string;
-    palette?: string[];
-    shapes?: ShapeName[];
-    rnd: () => number;
-  }
->;
+interface Options {
+  seed: string;
+  prng: () => number;
+  size: number;
+  palette?: string[];
+  complexity: ComplexityValue;
+  shapes?: ShapeName[];
+  cache: number;
+}
 
 //// INTERNAL UTILITY FUNCTIONS ////
 
@@ -48,7 +47,7 @@ const _seedInt = (input: unknown) => {
  * Returns a pseudo-random number generator function based on a numerical input seed.
  * (Mulberry32 algorithm, taken from https://stackoverflow.com/a/47593316/7399631)
  */
-function _getRndFn(a: number) {
+function _prng(a: number) {
   return function () {
     let t = (a += 0x6d2b79f5);
     t = Math.imul(t ^ (t >>> 15), t | 1);
@@ -61,7 +60,7 @@ function _getRndFn(a: number) {
  * Returns a random integer between min and max (inclusive)
  * using the given random number generator function.
  */
-const _getInt = (min: number = 0, max: number = 100, rnd: () => number) => {
+const _pickInt = (min: number = 0, max: number = 100, rnd: () => number) => {
   if (min > max) throw Error(`min (${min}) > (${max}).`);
   const span = Math.floor(max) + 1 - Math.ceil(min);
   return Math.floor(span * rnd()) + Math.ceil(min);
@@ -72,7 +71,7 @@ const _getInt = (min: number = 0, max: number = 100, rnd: () => number) => {
  * rotating the palette, or, if no palette is given, generates a random color
  * using the given random number generator function.
  */
-const _getColor = (o: GuaranteedNYFOptions) => {
+const _pickColor = (o: Options) => {
   if (o.palette?.length) {
     // pick and rotate
     const v = o.palette.pop();
@@ -82,7 +81,7 @@ const _getColor = (o: GuaranteedNYFOptions) => {
     // return (seed-stable) random color
     return (
       '#' +
-      _getInt(0, 0xfffff * 1000000, o.rnd)
+      _pickInt(0, 0xfffff * 1000000, o.prng)
         .toString(16)
         .slice(0, 6)
     );
@@ -106,40 +105,34 @@ const _shuffle = <T>(arr: Array<T>, rnd: () => number) => {
  * Makes sure the passed options object is complete and returns a new object with
  * all options set.
  */
-const _processOptions = (o?: NYFOptions) => {
-  const seed = _seedInt(o?.seed ?? Math.random().toString())
-    .toString()
-    .padStart(8, '0');
-  const rnd = _getRndFn(_seedInt(seed));
-  const palette = o?.palette?.length ? _shuffle(o.palette, rnd) : undefined;
+const _processOptions = (o?: UserOptions) => {
+  const seedInt = _seedInt(o?.seed ?? Math.random().toString());
+  const prng = _prng(seedInt);
+  const palette = o?.palette?.length ? _shuffle(o.palette, prng) : undefined;
   return {
-    seed,
-    rnd,
+    seed: seedInt.toString(),
+    prng,
     palette,
     complexity: o?.complexity ?? 4,
     size: o?.size ?? 128,
     shapes: o?.shapes?.length ? [...new Set(o.shapes)] : undefined,
     cache: o?.cache != null ? Math.abs(o.cache) : 1024,
-  } as GuaranteedNYFOptions;
+  } as Options;
 };
 
 /**
  * Draws a square into the given canvas context.
  */
-const _drawSquare = (
-  ctx: CanvasRenderingContext2D,
-  o: GuaranteedNYFOptions,
-  sizeMod: number = 1
-) => {
-  ctx.fillStyle = _getColor(o);
-  const size = _getInt(o.size * 0.5 * sizeMod, o.size * sizeMod, o.rnd);
+const _drawSquare = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number = 1) => {
+  ctx.fillStyle = _pickColor(o);
+  const size = _pickInt(o.size * 0.5 * sizeMod, o.size * sizeMod, o.prng);
   const posMod = size / 2;
-  const x = _getInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.rnd);
-  const y = _getInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.rnd);
+  const x = _pickInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.prng);
+  const y = _pickInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.prng);
   const xTrans = x + size / 2;
   const yTrans = y + size / 2;
   ctx.translate(xTrans, yTrans);
-  ctx.rotate(_getInt(0, 360, o.rnd));
+  ctx.rotate(_pickInt(0, 360, o.prng));
   ctx.translate(-xTrans, -yTrans);
   ctx.fillRect(x, y, size, size);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -148,35 +141,31 @@ const _drawSquare = (
 /**
  * Draws a circle into the given canvas context.
  */
-const _drawCircle = (
-  ctx: CanvasRenderingContext2D,
-  o: GuaranteedNYFOptions,
-  sizeMod: number = 1
-) => {
+const _drawCircle = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number = 1) => {
   ctx.beginPath();
-  const radius = _getInt(o.size * 0.5 * sizeMod, o.size * sizeMod, o.rnd);
+  const radius = _pickInt(o.size * 0.5 * sizeMod, o.size * sizeMod, o.prng);
   const posMod = radius / 2;
   ctx.arc(
-    _getInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.rnd),
-    _getInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.rnd),
+    _pickInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.prng),
+    _pickInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.prng),
     radius,
     0,
     2 * Math.PI
   );
-  ctx.fillStyle = _getColor(o);
+  ctx.fillStyle = _pickColor(o);
   ctx.fill();
 };
 
 //// AVATAR GENERATION PROCEDURE ////
 
-const _generate = (o: GuaranteedNYFOptions) => {
+const _generate = (o: Options) => {
   const canvas = document.createElement('canvas');
   canvas.width = o.size;
   canvas.height = o.size;
   const ctx = canvas.getContext('2d');
-  if (!ctx) return canvas.toDataURL('image/png');
+  if (!ctx) throw new Error();
   // background
-  ctx.fillStyle = _getColor(o);
+  ctx.fillStyle = _pickColor(o);
   ctx.fillRect(0, 0, o.size, o.size);
   // define available draw actions
   type ShapeDrawAction = { type: ShapeName; fn: (sm: number) => void };
@@ -188,7 +177,7 @@ const _generate = (o: GuaranteedNYFOptions) => {
   for (let i = 1; i <= o.complexity; i++) {
     actions[i % actions.length].fn(1.25 - i / o.complexity);
   }
-  return canvas.toDataURL('image/png');
+  return canvas.toDataURL();
 };
 
 //// SIMPLE SHORT-TERM MEMORY (a.k.a. cache) ////
@@ -198,7 +187,7 @@ const _cache: Map<string, string> = new Map();
 //// EXTERNAL API ////
 
 const nyf = {
-  dataURI(options?: NYFOptions): string {
+  dataURI(options?: UserOptions): string {
     // populate options object to work with
     const o = _processOptions(options);
     // process seed to get something that makes sense as a mapping key
@@ -214,7 +203,7 @@ const nyf = {
     }
     return dataURI;
   },
-  imgEl(options?: NYFOptions, attrs?: Record<string, string>): HTMLImageElement {
+  imgEl(options?: UserOptions, attrs?: Record<string, string>): HTMLImageElement {
     const el = document.createElement('img');
     el.src = nyf.dataURI(options);
     // apply additional element attributes
