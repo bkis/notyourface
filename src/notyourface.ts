@@ -139,7 +139,7 @@ const _drawCircle = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number 
  * Makes sure the passed options object is complete and returns a new object with
  * all options set.
  */
-const _processOptions = (o?: UserOptions) => {
+export const _processOptions = (o?: UserOptions) => {
   const seedInt = _seedInt(o?.seed ?? Math.random().toString());
   const prng = _prng(seedInt);
   const palette = o?.palette?.length ? _shuffle(o.palette, prng) : undefined;
