@@ -31,7 +31,7 @@ interface Options {
 const _seedInt = (input: unknown) => {
   let str: string;
   try {
-    str = JSON.stringify(input ?? Math.random().toString());
+    str = JSON.stringify(input);
   } catch {
     str = String(input);
   }
@@ -47,7 +47,7 @@ const _seedInt = (input: unknown) => {
  * Returns a pseudo-random number generator function based on a numerical input seed.
  * (Mulberry32 algorithm, taken from https://stackoverflow.com/a/47593316/7399631)
  */
-const _prng = (a: number) => () => {
+export const _prng = (a: number) => () => {
   let t = (a += 0x6d2b79f5);
   t = Math.imul(t ^ (t >>> 15), t | 1);
   t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
@@ -58,7 +58,7 @@ const _prng = (a: number) => () => {
  * Returns a random integer between min and max (inclusive)
  * using the given random number generator function.
  */
-const _pickInt = (min: number = 0, max: number = 100, rnd: () => number) => {
+export const _pickInt = (min: number = 0, max: number = 100, rnd: () => number) => {
   if (min > max) throw Error(`min (${min}) > (${max}).`);
   const span = Math.floor(max) + 1 - Math.ceil(min);
   return Math.floor(span * rnd()) + Math.ceil(min);
@@ -69,12 +69,12 @@ const _pickInt = (min: number = 0, max: number = 100, rnd: () => number) => {
  * rotating the palette, or, if no palette is given, generates a random color
  * using the given random number generator function.
  */
-const _pickColor = (o: Options) => {
+export const _pickColor = (o: Options) => {
   if (o.palette?.length) {
     // pick and rotate
     const v = o.palette.pop();
     if (v) o.palette.unshift(v);
-    return v ?? '#fff';
+    return v ?? 'red';
   } else {
     // return (seed-stable) random color
     return (
@@ -97,25 +97,6 @@ const _shuffle = <T>(arr: Array<T>, rnd: () => number) => {
     [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
   }
   return arr;
-};
-
-/**
- * Makes sure the passed options object is complete and returns a new object with
- * all options set.
- */
-const _processOptions = (o?: UserOptions) => {
-  const seedInt = _seedInt(o?.seed ?? Math.random().toString());
-  const prng = _prng(seedInt);
-  const palette = o?.palette?.length ? _shuffle(o.palette, prng) : undefined;
-  return {
-    seed: seedInt.toString(),
-    prng,
-    palette,
-    complexity: o?.complexity ?? 4,
-    size: o?.size ?? 128,
-    shapes: o?.shapes?.length ? [...new Set(o.shapes)] : undefined,
-    cache: o?.cache != null ? Math.abs(o.cache) : 1024,
-  } as Options;
 };
 
 /**
@@ -154,6 +135,25 @@ const _drawCircle = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number 
   ctx.fill();
 };
 
+/**
+ * Makes sure the passed options object is complete and returns a new object with
+ * all options set.
+ */
+const _processOptions = (o?: UserOptions) => {
+  const seedInt = _seedInt(o?.seed ?? Math.random().toString());
+  const prng = _prng(seedInt);
+  const palette = o?.palette?.length ? _shuffle(o.palette, prng) : undefined;
+  return {
+    seed: seedInt.toString(),
+    prng,
+    palette,
+    complexity: o?.complexity ?? 4,
+    size: o?.size ?? 128,
+    shapes: o?.shapes?.length ? [...new Set(o.shapes)] : undefined,
+    cache: o?.cache != null ? Math.abs(o.cache) : 1024,
+  } as Options;
+};
+
 //// AVATAR GENERATION PROCEDURE ////
 
 const _generate = (o: Options) => {
@@ -161,6 +161,7 @@ const _generate = (o: Options) => {
   canvas.width = o.size;
   canvas.height = o.size;
   const ctx = canvas.getContext('2d');
+  /* v8 ignore if -- @preserve */
   if (!ctx) throw new Error();
   // background
   ctx.fillStyle = _pickColor(o);
@@ -184,34 +185,42 @@ const _cache: Map<string, string> = new Map();
 
 //// EXTERNAL API ////
 
-const nyf = {
-  dataURI(options?: UserOptions): string {
-    // populate options object to work with
-    const o = _processOptions(options);
-    // process seed to get something that makes sense as a mapping key
-    // check if we can serve from cache (if cache usage isn't disabled in options)
-    if (!!o.cache && _cache.has(o.seed)) {
-      return _cache.get(o.seed) as string;
-    }
-    // generate new avatar data URI
-    const dataURI = _generate(o);
-    // write to cache (if cache usage isn't disabled in options)
-    if (!!o.cache && _cache.size < o.cache) {
-      _cache.set(o.seed, dataURI);
-    }
-    return dataURI;
-  },
-  imgEl(options?: UserOptions, attrs?: Record<string, string>): HTMLImageElement {
-    const el = document.createElement('img');
-    el.src = nyf.dataURI(options);
-    // apply additional element attributes
-    if (attrs) {
-      Object.keys(attrs).forEach((key) => {
-        el.setAttribute(key, attrs[key]);
-      });
-    }
-    return el;
-  },
+/**
+ * Generates PNG image data based on the given options and returns it encoded as data URI.
+ */
+export const dataURI = (options?: UserOptions): string => {
+  // populate options object to work with
+  const o = _processOptions(options);
+  // process seed to get something that makes sense as a mapping key
+  // check if we can serve from cache (if cache usage isn't disabled in options)
+  if (!!o.cache && _cache.has(o.seed)) {
+    return _cache.get(o.seed) as string;
+  }
+  // generate new avatar data URI
+  const dataURI = _generate(o);
+  // write to cache (if cache usage isn't disabled in options)
+  if (!!o.cache && _cache.size < o.cache) {
+    _cache.set(o.seed, dataURI);
+  }
+  return dataURI;
 };
 
+/**
+ * Generates PNG image data based on the given options and returns
+ * an img tag with the PNG data encoded as data URI.
+ * Also, the given `attrs` object is applied to the img tag as attributes.
+ */
+export const imgEl = (options?: UserOptions, attrs?: Record<string, string>): HTMLImageElement => {
+  const el = document.createElement('img');
+  el.src = dataURI(options);
+  // apply additional element attributes
+  if (attrs) {
+    Object.keys(attrs).forEach((key) => {
+      el.setAttribute(key, attrs[key]);
+    });
+  }
+  return el;
+};
+
+const nyf = { dataURI, imgEl };
 export default nyf;

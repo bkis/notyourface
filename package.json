@@ -35,7 +35,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run fix && tsc && vite build",
+    "test": "vitest run --coverage.enabled --coverage.thresholds.100",
+    "build": "npm run fix && npm run test && tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "format": "prettier . --write",
@@ -44,13 +45,17 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@vitest/coverage-v8": "^4.0.8",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
+    "jsdom": "^27.2.0",
     "npm-run-all2": "^8.0.4",
     "prettier": "3.6.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.3",
     "unplugin-dts": "^1.0.0-beta.6",
-    "vite": "^7.1.7"
+    "vite": "^7.1.7",
+    "vitest": "^4.0.8",
+    "vitest-canvas-mock": "^0.3.3"
   }
 }
