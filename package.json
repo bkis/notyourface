@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "test": "vitest run --coverage.enabled --coverage.thresholds.100",
+    "test": "vitest run",
     "build": "npm run fix && npm run test && tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
