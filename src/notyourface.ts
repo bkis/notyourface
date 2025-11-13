@@ -106,13 +106,11 @@ const _drawSquare = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number 
   ctx.fillStyle = _pickColor(o);
   const size = _pickInt(o.size * 0.5 * sizeMod, o.size * sizeMod, o.prng);
   const posMod = size / 2;
-  const x = _pickInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.prng);
-  const y = _pickInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.prng);
-  const xTrans = x + size / 2;
-  const yTrans = y + size / 2;
-  ctx.translate(xTrans, yTrans);
+  const x = _pickInt(o.size * 0.2 - posMod, o.size * 0.8 + posMod, o.prng);
+  const y = _pickInt(o.size * 0.2 - posMod, o.size * 0.8 + posMod, o.prng);
+  ctx.translate(x + posMod, y + posMod);
   ctx.rotate(_pickInt(0, 360, o.prng));
-  ctx.translate(-xTrans, -yTrans);
+  ctx.translate(-(x + posMod), -(y + posMod));
   ctx.fillRect(x, y, size, size);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
 };
@@ -123,10 +121,9 @@ const _drawSquare = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number 
 const _drawCircle = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number = 1) => {
   ctx.beginPath();
   const radius = _pickInt(o.size * 0.5 * sizeMod, o.size * sizeMod, o.prng);
-  const posMod = radius / 2;
   ctx.arc(
-    _pickInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.prng),
-    _pickInt(o.size * 0.2 - posMod, o.size - o.size * 0.2 + posMod, o.prng),
+    _pickInt(o.size * 0.2 - radius, o.size * 0.8 + radius, o.prng),
+    _pickInt(o.size * 0.2 - radius, o.size * 0.8 + radius, o.prng),
     radius,
     0,
     2 * Math.PI
@@ -139,7 +136,7 @@ const _drawCircle = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number 
  * Makes sure the passed options object is complete and returns a new object with
  * all options set.
  */
-export const _processOptions = (o?: UserOptions) => {
+export const _processOptions = (o?: UserOptions): Options => {
   const seedInt = _seedInt(o?.seed ?? Math.random().toString());
   const prng = _prng(seedInt);
   const palette = o?.palette?.length ? _shuffle(o.palette, prng) : undefined;
@@ -151,7 +148,7 @@ export const _processOptions = (o?: UserOptions) => {
     size: o?.size ?? 128,
     shapes: o?.shapes?.length ? [...new Set(o.shapes)] : undefined,
     cache: o?.cache != null ? Math.abs(o.cache) : 1024,
-  } as Options;
+  };
 };
 
 //// AVATAR GENERATION PROCEDURE ////
