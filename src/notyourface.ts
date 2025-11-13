@@ -167,14 +167,16 @@ const _generate = (o: Options) => {
   ctx.fillStyle = _pickColor(o);
   ctx.fillRect(0, 0, o.size, o.size);
   // define available draw actions
-  type ShapeDrawAction = { type: ShapeName; fn: (sm: number) => void };
-  const actions: ShapeDrawAction[] = [
-    { type: 'circle' as ShapeName, fn: (sm: number) => _drawCircle(ctx, o, sm) },
-    { type: 'square' as ShapeName, fn: (sm: number) => _drawSquare(ctx, o, sm) },
-  ].filter((a: ShapeDrawAction) => !o.shapes?.length || o.shapes.includes(a.type));
-  // draw shapes, count depends on complexity option value
+  const actions: Array<(sizeMod: number) => void> = Object.entries({
+    circle: (sizeMod: number) => _drawCircle(ctx, o, sizeMod),
+    square: (sizeMod: number) => _drawSquare(ctx, o, sizeMod),
+  })
+    .filter((ae) => !o.shapes?.length || o.shapes.includes(ae[0] as ShapeName))
+    .map((ae) => ae[1]);
+  // draw shapes, count depends on complexity option value, size modifier
+  // is decreased with each iteration so shapes in the background are bigger
   for (let i = 1; i <= o.complexity; i++) {
-    actions[i % actions.length].fn(1.25 - i / o.complexity);
+    actions[i % actions.length](1.25 - i / o.complexity);
   }
   return canvas.toDataURL();
 };
