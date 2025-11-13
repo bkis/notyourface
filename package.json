@@ -35,12 +35,11 @@
   ],
   "scripts": {
     "dev": "vite",
+    "check": "eslint . ; prettier . --check",
+    "fix": "eslint . --fix ; prettier . --write",
     "test": "vitest run",
     "build": "npm run fix && npm run test && tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --fix",
-    "format": "prettier . --write",
-    "fix": "run-s lint format",
     "prepare": "run-p fix"
   },
   "devDependencies": {
