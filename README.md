@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](https://www.npmjs.com/package/notyourface)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](#)
-[![gzip: 1.25 kB](https://img.shields.io/badge/gzip-1.25_kB-green)](#)
+[![gzip: 1.3 kB](https://img.shields.io/badge/gzip-1.3_kB-green)](#)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue)](#)
 [![dependencies: none](https://img.shields.io/badge/dependencies-none-lightgray)](#)
 
@@ -25,7 +25,7 @@
 - 👩‍💻 **Simple** but efficient API, typed with **TypeScript**
 - 🎨 Fixed, **custom color palettes** or colorful **randomness**
 - 🌱 **Deterministic** (same seed == same image)
-- 📦 Only **~1.25kb** gzipped
+- 📦 Only **~1.3kb** gzipped
 - ⚡ Works **client-side** (in the browser) and **caches** up to `n` generated avatar images (`1024` by default)
 - 🛠 Configurable **complexity**, **size**, **shape types**, ...
 - 🐧 **No runtime dependencies** (as in _zero_, _none_, ...wait, why is there a penguin?!)
