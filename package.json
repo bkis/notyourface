@@ -39,8 +39,7 @@
     "fix": "eslint . --fix ; prettier . --write",
     "test": "vitest run",
     "build": "npm run fix && npm run test && tsc && vite build",
-    "preview": "vite preview",
-    "prepare": "run-p fix"
+    "preview": "vite preview"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
