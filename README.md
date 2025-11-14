@@ -198,6 +198,6 @@ Use the following `npm` scripts in development:
 
 - `npm run fix`: Runs ESLint with `--fix` flag and Prettier with `--write` flag.
 - `npm run dev`: Starts the development server. Visit `http://localhost:5173` afterwards to see the development page that hot-reloads and reflects the current state of the source live.
-- `npm test` (or `npm run test`) Runs the vitest test suite.
+- `npm test` (or `npm run test`): Runs the test suite.
 - `npm run build`: Runs the `fix` script, `tsc`, and `vite build` in sequence.
 - `npm run bump <major|minor|patch>`: Bumps the version number and creates a new commit and tag.
