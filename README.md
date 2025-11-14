@@ -10,7 +10,7 @@
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/notyourface?label=gzip)](https://www.npmjs.com/package/notyourface)
 [![NPM Downloads](https://img.shields.io/npm/dm/notyourface)](https://www.npmjs.com/package/notyourface)
 
-**notyourface** deterministically generates random but stable avatar images from any input seed. Like a configurable hash function that produces funky little images. Your face is beautiful! But sometimes you need the next best thing.
+**notyourface** deterministically generates random but stable avatar images from any input seed. Like a configurable hash function that produces funky little graphics. Your face is beautiful! But sometimes you need the next best thing.
 
 ![](./docs/assets/example_header_01.png)
 ![](./docs/assets/example_header_02.png)
@@ -28,11 +28,11 @@
 
 - 👩‍💻 **Simple** but efficient API, typed with **TypeScript**
 - 🎨 Fixed, **custom color palettes** or colorful **randomness**
-- 🌱 **Deterministic** (same seed == same image)
+- 🧬 **Deterministic** (same seed == same image)
 - 📦 Only **~1.3kb** gzipped
 - ⚡ Works **client-side** (in the browser) and **caches** up to `n` generated avatar images (`1024` by default)
 - 🛠 Configurable **complexity**, **size**, **shape types**, ...
-- 🐧 **No runtime dependencies** (as in _zero_, _none_, ...wait, why is there a penguin?!)
+- 🦜 **No runtime dependencies** (as in _zero_, _none_, ...wait, why is there a parrot?!)
 - 🖼 Returns _encoded image data_ as a [data URI](https://en.wikipedia.org/wiki/Data_URI_scheme), e.g. for direct use as `<img src="...">` or CSS `background-image: url(...)` **or** returns a ready-to-use `img` HTML element – so no DOM manipulations by the library, it's all up to you!
 - 🤖 **no AI** involved nor required (in case you were concerned)
 
@@ -190,14 +190,14 @@ As this library was developed with an optimistic attitude, negative values will 
 
 ## Contributing
 
-Please see the [contributing guidelines](CONTRIBUTING.md).
+Contributions are welcome! Please see the [contributing guidelines](CONTRIBUTING.md).
 
 ## Development
 
 Use the following `npm` scripts in development:
 
-- `npm run lint`: Runs ESLint with `--fix` flag.
-- `npm run format`: Runs Prettier with `--write` flag.
-- `npm run fix`: Runs both `lint` and `format` scripts.
+- `npm run fix`: Runs ESLint with `--fix` flag and Prettier with `--write` flag.
 - `npm run dev`: Starts the development server. Visit `http://localhost:5173` afterwards to see the development page that hot-reloads and reflects the current state of the source live.
+- `npm test` (or `npm run test`) Runs the vitest test suite.
 - `npm run build`: Runs the `fix` script, `tsc`, and `vite build` in sequence.
+- `npm run bump <major|minor|patch>`: Bumps the version number and creates a new commit and tag.
