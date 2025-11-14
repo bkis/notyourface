@@ -1,13 +1,14 @@
 # notyourface
 
-[![npm](https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=fff)](https://www.npmjs.com/package/notyourface)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](#)
-[![license: MIT](https://img.shields.io/badge/license-MIT-blue)](#)
-[![dependencies: none](https://img.shields.io/badge/dependencies-none-lightgray)](#)
+[![NPM Version](https://img.shields.io/npm/v/notyourface?logo=npm&logoColor=red&color=leaf&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fnotyourface)](https://www.npmjs.com/package/notyourface)
+[![NPM Type Definitions](https://img.shields.io/npm/types/notyourface)](#)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/bkis/notyourface/blob/main/LICENSE)
+[![dependencies: none](https://img.shields.io/badge/dependencies-none-lightgray)](https://www.npmjs.com/package/notyourface?activeTab=dependencies)
 \
-[![gzip: 1.3 kB](https://img.shields.io/badge/gzip-1.3_kB-leaf)](#)
 [![tests status](https://img.shields.io/github/actions/workflow/status/bkis/notyourface/tests.yml?label=tests)](https://github.com/bkis/notyourface/actions/workflows/tests.yml)
-[![coverage is always 100%](https://img.shields.io/badge/coverage-100%25-leaf)](#)
+[![coverage is always 100%](https://img.shields.io/badge/coverage-100%25-leaf)](https://github.com/bkis/notyourface/actions/workflows/tests.yml)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/notyourface?label=gzip)](https://www.npmjs.com/package/notyourface)
+[![NPM Downloads](https://img.shields.io/npm/dm/notyourface)](https://www.npmjs.com/package/notyourface)
 
 **notyourface** deterministically generates random but stable avatar images from any input seed. Like a configurable hash function that produces funky little images. Your face is beautiful! But sometimes you need the next best thing.
 
