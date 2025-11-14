@@ -1,0 +1,9 @@
+node_modules
+
+# Ignore artifacts:
+dist
+coverage
+
+# Ignore ...other things:
+LICENSE
+**/*.md
