@@ -182,7 +182,7 @@ Only `['circle']` or only `['square']`:
 - Type: `number` (optional)
 - Default: `1024`
 
-The number of avatar images to cache in memory.
+The number of avatar images to cache in memory. If this is set to a positive number and the cache already contains >= `cache` images, the cache will still be read from, but not written to.
 
 As this library was developed with an optimistic attitude, negative values will simply be turned into their positive counterparts (so the absolute value is used).
 
