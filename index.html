@@ -53,6 +53,17 @@
     <script type="module">
       import nyf from './src/notyourface.ts';
 
+      //// regenerate example avatar image every second ////
+
+      const exampleAvatar = document.createElement('img');
+      exampleAvatar.src = nyf.dataURI({ size: 128 });
+      document.body.appendChild(exampleAvatar);
+      setInterval(() => {
+        exampleAvatar.src = nyf.dataURI({ size: 128 });
+      }, 200);
+
+      //// generate controlled example avatar gallery ////
+
       const size = 100;
 
       const addAvatarGallery = (heading, description, seeds, options) => {
