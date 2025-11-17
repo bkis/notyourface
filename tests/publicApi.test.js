@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import * as nyf from '../src/notyourface';
+import nyf from '../src/notyourface';
 
 const testOptions = [
   undefined,
