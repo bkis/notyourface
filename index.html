@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>notyourface</title>
+    <title>🌈 notyourface</title>
 
     <style>
       body {
@@ -14,53 +14,183 @@
         padding: 16px;
         line-height: 1.6em;
       }
+
+      a:any-link {
+        color: skyblue;
+      }
+
       h1 {
         margin-top: 0;
       }
+
       h2 {
-        margin-top: 32px;
-        margin-bottom: 0;
+        margin-top: 40px;
+        margin-bottom: 12px;
       }
+
+      h3 {
+        margin-top: 32px;
+        margin-bottom: 0px;
+      }
+
       p {
         margin: 12px 0;
       }
+
       code {
         background-color: rgba(128, 128, 128, 0.25);
         padding: 2px 4px;
         border-radius: 3px;
       }
+
+      hr {
+        width: 100%;
+        border-top: 1px solid #fff1;
+      }
+
+      #playground {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 24px;
+        background-color: #fff1;
+        border-radius: 4px;
+      }
+
+      #playground .form-item {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 24px;
+        row-gap: 2px;
+        align-items: center;
+      }
+
+      #playground .form-item > label {
+        flex: 0 160px;
+        font-weight: bold;
+      }
+
+      #playground .form-item > input,
+      #playground .form-item > select {
+        flex: 0 200px;
+      }
+
+      #playground .form-item > code {
+        flex: 8 120px;
+        font-family: monospace;
+      }
+
+      #playground #pg-imgs {
+        display: flex;
+        gap: 24px;
+      }
+
       .avt-gallery {
         display: flex;
         flex-wrap: wrap;
         gap: 16px;
       }
-      .avt-gallery > img:nth-child(2n) {
+
+      img:nth-child(2n) {
         border-radius: 50%;
       }
-      .avt-gallery > img:nth-child(3n) {
+
+      img:nth-child(3n) {
         border-radius: 25%;
       }
     </style>
   </head>
   <body>
-    <h1>notyourface</h1>
-    <p>
-      All avatar images are square-shaped.<br />
-      The round(ed) ones are simply styled with
-      <code>border-radius: 50%</code> or <code>border-radius: 25%</code>.
+    <h1>🌈 notyourface</h1>
+
+    <p>Deterministically generated avatar images. Pretty, simple and lightweight.</p>
+    <p style="font-size: larger">
+      Go to <a href="https://github.com/bkis/notyourface">github.com/bkis/notyourface</a>
+      for usage instructions!
     </p>
+    <p>
+      All avatar images are square-shaped. Round images don't exist.<br />
+      The round(ed) ones are simply styled with <code>border-radius: 50%</code> or
+      <code>border-radius: 25%</code>.
+    </p>
+
+    <h2>Playground</h2>
+    <div id="playground">
+      <div class="form-item">
+        <label for="palette">Palette</label>
+        <select name="palette" id="palette" value="null">
+          <option value="null" selected>Random!</option>
+          <option value='["#640D5F", "#D91656", "#EB5B00", "#FFB200"]'>Sunset</option>
+          <option value='["#294B29", "#50623A", "#789461", "#DBE7C9"]'>Forest</option>
+          <option value='["#FF2DD1", "#FDFFB8", "#4DFFBE", "#63C8FF"]'>Candy</option>
+          <option value='["#F8F6E3", "#97E7E1", "#6AD4DD", "#7AA2E3"]'>Sky</option>
+          <option value='["#E4E0E1", "#D6C0B3", "#AB886D", "#493628"]'>Coffee</option>
+          <option value='["#11224E", "#F87B1B", "#CBD99B", "#EEEEEE"]'>Retro</option>
+        </select>
+        <code id="palette-v"></code>
+      </div>
+      <div class="form-item">
+        <label for="shapes">Shapes</label>
+        <select name="shapes" id="shapes" value="null">
+          <option value="null" selected>All of them!</option>
+          <option value='["circle"]'>Circles only</option>
+          <option value='["square"]'>Squares only</option>
+        </select>
+        <code id="shapes-v"></code>
+      </div>
+      <div class="form-item">
+        <label for="size">Size</label>
+        <input type="range" id="size" name="size" min="50" max="300" step="50" value="200" />
+        <code id="size-v"></code>
+      </div>
+      <div class="form-item">
+        <label for="complexity">Complexity</label>
+        <input type="range" id="complexity" name="complexity" min="1" max="10" value="4" />
+        <code id="complexity-v"></code>
+      </div>
+      <hr />
+      <div id="pg-imgs">
+        <img id="pg-img-1" src="" />
+        <img id="pg-img-2" src="" />
+        <img id="pg-img-3" src="" />
+      </div>
+    </div>
+
+    <h2>Examples</h2>
 
     <script type="module">
       import nyf from './src/notyourface.ts';
 
       //// regenerate example avatar image every second ////
 
-      const exampleAvatar = document.createElement('img');
-      exampleAvatar.src = nyf.dataURI({ size: 128 });
-      document.body.appendChild(exampleAvatar);
-      setInterval(() => {
-        exampleAvatar.src = nyf.dataURI({ size: 128 });
-      }, 200);
+      const applyOptions = () => {
+        // collect options from UI
+        const options = Object.fromEntries(
+          ['size', 'palette', 'shapes', 'complexity'].map((o) => [
+            o,
+            document.getElementById(o).value,
+          ])
+        );
+        Object.entries(options).forEach((o) => {
+          // JSON-parse value in options object
+          options[o[0]] = JSON.parse(o[1]);
+          // display value in UI
+          document.getElementById(`${o[0]}-v`).innerText =
+            options[o[0]] == null ? 'undefined' : o[1];
+        });
+        // generate avatar image and apply to img elements
+        Array.from(Array(3).keys())
+          .map((i) => document.getElementById(`pg-img-${i + 1}`))
+          .forEach((img) => {
+            img.src = nyf.dataURI(options);
+          });
+      };
+
+      applyOptions();
+      setInterval(applyOptions, 750);
 
       //// generate controlled example avatar gallery ////
 
@@ -68,9 +198,9 @@
 
       const addAvatarGallery = (heading, description, seeds, options) => {
         // heading
-        const h2 = document.createElement('h2');
-        h2.innerText = heading;
-        document.body.appendChild(h2);
+        const h3 = document.createElement('h3');
+        h3.innerText = heading;
+        document.body.appendChild(h3);
         // description
         const p = document.createElement('p');
         p.innerHTML = description;
