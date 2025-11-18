@@ -172,6 +172,7 @@ const _generate = (o: Options) => {
   })
     .filter((ae) => !o.shapes?.length || o.shapes.includes(ae[0] as ShapeName))
     .map((ae) => ae[1]);
+  _shuffle(actions, o.prng);
   // draw shapes, count depends on complexity option value, size modifier
   // is decreased with each iteration so shapes in the background are bigger
   for (let i = 1; i <= o.complexity; i++) {
