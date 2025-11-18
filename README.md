@@ -22,7 +22,8 @@
 ![](./docs/assets/example_header_08.png)
 ![](./docs/assets/example_header_09.png)
 
-(for more examples, see the [Configuration](#configuration) section!)
+For more examples, see the **[🎲 DEMO PLAYGROUND](https://bkis.github.io/notyourface/)**! \
+Well, and the [Configuration](#configuration) section.
 
 ## Features
 
