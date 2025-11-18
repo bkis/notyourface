@@ -50,9 +50,14 @@ npm install notyourface
 
 ## Usage
 
-Use it in browser-facing code! The library needs access to the `document` object and the [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) to generate the images.
+Use it in browser-facing code! The library needs access to a [`document`](https://developer.mozilla.org/en-US/docs/Web/API/Document) object and the [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) to generate the images.
 
-You have the choice between two function calls. That's it. One gives you a data URI containing encoded PNG image data you can use as a `src` value for an `<img>` element or as a `background-image` in CSS. The other gives you a ready-to-use `<img>` element with optional attributes (with the same encoded PNG data set as `src`, so this second one is just a convenience wrapper around the first).
+You have the choice between two function calls. That's it.
+
+- **`dataURI(options?)`** gives you a data URI containing encoded PNG image data. You can use it as `<img src="...">` in HTML or `background-image: url(...)` in CSS.
+- **`imgEl(options?, attributes?)`** gives you a ready-to-use `<img>` element with optional attributes set. It has the same encoded PNG data set as `src`, so this second function is just a convenience wrapper around the first one.
+
+It's that easy:
 
 ```js
 import nyf from 'notyourface';
