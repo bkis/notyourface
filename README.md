@@ -165,7 +165,7 @@ As you can see, we should've realized we're making a huge mistake at around `6`.
 
 ### `shapes`
 
-- Type: `Array<'square' | 'circle'>` (optional)
+- Type: `Array<'square' | 'circle' | 'line'>` (optional)
 - Default: `undefined`
 
 The types of shapes that will be drawn onto the avatar image. This is a way to e.g. reduce the shapes used to only one type. It greatly changes the overall style of the avatar image.
@@ -176,12 +176,14 @@ If not set, all types will be used.
 
 #### Examples
 
-Only `['circle']` or only `['square']`:
+Only `['circle']`, only `['square']` or only `['line']`:
 
 ![](./docs/assets/example_shapes_01.png)
 ![](./docs/assets/example_shapes_02.png)
 ![](./docs/assets/example_shapes_03.png)
 ![](./docs/assets/example_shapes_04.png)
+![](./docs/assets/example_shapes_05.png)
+![](./docs/assets/example_shapes_06.png)
 
 ### `cache`
 

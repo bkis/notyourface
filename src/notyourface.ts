@@ -3,7 +3,7 @@
 //// TYPES ////
 
 type ComplexityValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-type ShapeName = 'square' | 'circle';
+type ShapeName = 'square' | 'circle' | 'line';
 
 interface UserOptions {
   seed?: unknown;
@@ -102,7 +102,7 @@ const _shuffle = <T>(arr: Array<T>, rnd: () => number) => {
 };
 
 /**
- * Draws a square into the given canvas context.
+ * Draws a square onto the given canvas context.
  */
 const _drawSquare = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number = 1) => {
   ctx.fillStyle = _pickColor(o);
@@ -118,7 +118,7 @@ const _drawSquare = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number 
 };
 
 /**
- * Draws a circle into the given canvas context.
+ * Draws a circle onto the given canvas context.
  */
 const _drawCircle = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number = 1) => {
   ctx.beginPath();
@@ -132,6 +132,21 @@ const _drawCircle = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number 
   );
   ctx.fillStyle = _pickColor(o);
   ctx.fill();
+};
+
+/**
+ * Draws a line onto the given canvas context.
+ */
+const _drawLine = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number = 1) => {
+  ctx.beginPath();
+  const x1 = _pickInt(-100, o.size + 100, o.prng);
+  const y1 = _pickInt(-100, o.size + 100, o.prng);
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x1 * -1 + _pickInt(0, o.size * 2, o.prng), y1 * -1 + _pickInt(0, o.size * 2, o.prng));
+  ctx.lineWidth = (o.size / 4) * sizeMod;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = _pickColor(o);
+  ctx.stroke();
 };
 
 /**
@@ -169,6 +184,7 @@ const _generate = (o: Options) => {
   const actions: Array<(sizeMod: number) => void> = Object.entries({
     circle: (sizeMod: number) => _drawCircle(ctx, o, sizeMod),
     square: (sizeMod: number) => _drawSquare(ctx, o, sizeMod),
+    line: (sizeMod: number) => _drawLine(ctx, o, sizeMod),
   })
     .filter((ae) => !o.shapes?.length || o.shapes.includes(ae[0] as ShapeName))
     .map((ae) => ae[1]);

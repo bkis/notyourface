@@ -192,6 +192,8 @@
             <option value="null" selected>All of them!</option>
             <option value='["circle"]'>Circles only</option>
             <option value='["square"]'>Squares only</option>
+            <option value='["line"]'>Lines only</option>
+            <option value='["circle", "square"]'>No lines</option>
           </select>
           <code id="shapes-v"></code>
         </div>
@@ -360,7 +362,7 @@
       );
 
       addAvatarGallery(
-        'Only circles, seeded with fixed color palette',
+        'Circles only, seeded with fixed color palette',
         `Seeded avatars made exclusively of circles with a custom color palette.
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
@@ -373,7 +375,7 @@
       );
 
       addAvatarGallery(
-        'Only squares, seeded with fixed color palette',
+        'Squares only, seeded with fixed color palette',
         `Seeded avatars made exclusively of squares with a custom color palette.
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
@@ -381,6 +383,19 @@
           size,
           palette: ['#F25912', '#5C3E94', '#412B6B', '#211832'],
           shapes: ['square'],
+          cache: 0,
+        }
+      );
+
+      addAvatarGallery(
+        'Lines only, seeded with fixed color palette',
+        `Seeded avatars made exclusively of squares with a custom color palette.
+        These will look exactly the same as long as the seeds don\'t change.`,
+        Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
+        {
+          size,
+          palette: ['#FF2DD1', '#FDFFB8', '#4DFFBE', '#63C8FF'],
+          shapes: ['line'],
           cache: 0,
         }
       );
