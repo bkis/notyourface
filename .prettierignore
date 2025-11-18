@@ -7,3 +7,5 @@ coverage
 # Ignore ...other things:
 LICENSE
 **/*.md
+**/*.yml
+**/*.yaml
