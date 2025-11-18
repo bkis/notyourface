@@ -175,7 +175,7 @@
       <div id="playground">
         <div class="form-item">
           <label for="palette">Palette</label>
-          <select name="palette" id="palette" value="null">
+          <select id="palette" value="null">
             <option value="null" selected>Random!</option>
             <option value='["#640D5F", "#D91656", "#EB5B00", "#FFB200"]'>Sunset</option>
             <option value='["#294B29", "#50623A", "#789461", "#DBE7C9"]'>Forest</option>
@@ -188,7 +188,7 @@
         </div>
         <div class="form-item">
           <label for="shapes">Shapes</label>
-          <select name="shapes" id="shapes" value="null">
+          <select id="shapes" value="null">
             <option value="null" selected>All of them!</option>
             <option value='["circle"]'>Circles only</option>
             <option value='["square"]'>Squares only</option>
@@ -199,12 +199,12 @@
         </div>
         <div class="form-item">
           <label for="size">Size</label>
-          <input type="range" id="size" name="size" min="50" max="360" step="10" value="200" />
+          <input type="range" id="size" min="50" max="360" step="10" value="200" />
           <code id="size-v"></code>
         </div>
         <div class="form-item">
           <label for="complexity">Complexity</label>
-          <input type="range" id="complexity" name="complexity" min="1" max="10" value="4" />
+          <input type="range" id="complexity" min="1" max="10" value="4" />
           <code id="complexity-v"></code>
         </div>
 
