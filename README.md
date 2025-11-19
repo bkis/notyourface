@@ -166,11 +166,13 @@ As you can see, we should've realized we're making a huge mistake at around `6`.
 ### `shapes`
 
 - Type: `Array<'square' | 'circle' | 'line'>` (optional)
-- Default: `undefined`
+- Default: `undefined` (one random shape type will be used)
 
-The types of shapes that will be drawn onto the avatar image. This is a way to e.g. reduce the shapes used to only one type. It greatly changes the overall style of the avatar image.
+The types of shapes that will be drawn onto the avatar image. This is a way to e.g. reduce the shapes used to only specific types. This greatly changes the overall style and distinguishability of the avatar image.
 
-If not set, all types will be used.
+- If not set, only **one random shape type** will be used (default).
+- If set to `[]` (an empty array), **all available shape types** will be used.
+- If set to a specific combination of shape types, **only those** will be used.
 
 💡 No, this does not determine the shape of the generated image. There are no circular digital images. But you can always style your `<img>` element to be circular with `border-radius: 50%` or make it blurry using `filter: blur(2px)`, or whatever you like.
 

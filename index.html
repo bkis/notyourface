@@ -191,7 +191,7 @@
         <div class="form-item">
           <label for="palette">Palette</label>
           <select id="palette" value="null">
-            <option value="null" selected>Random!</option>
+            <option value="null" selected>Random</option>
             <option value='["#640D5F", "#D91656", "#EB5B00", "#FFB200"]'>Sunset</option>
             <option value='["#294B29", "#50623A", "#789461", "#DBE7C9"]'>Forest</option>
             <option value='["#FF2DD1", "#FDFFB8", "#4DFFBE", "#63C8FF"]'>Candy</option>
@@ -204,11 +204,12 @@
         <div class="form-item">
           <label for="shapes">Shapes</label>
           <select id="shapes" value="null">
-            <option value="null" selected>All of them!</option>
+            <option value="null" selected>One random shape type</option>
+            <option value="[]" selected>All shape types</option>
             <option value='["circle"]'>Circles only</option>
             <option value='["square"]'>Squares only</option>
             <option value='["line"]'>Lines only</option>
-            <option value='["circle", "square"]'>No lines</option>
+            <option value='["circle", "square"]'>Squares and circles only</option>
           </select>
           <code id="shapes-v"></code>
         </div>
@@ -273,7 +274,7 @@
 
       //// generate controlled example avatar gallery ////
 
-      const size = 100;
+      const size = 64;
 
       const addAvatarGallery = (heading, description, seeds, options) => {
         const main = document.getElementById('main');
@@ -365,12 +366,13 @@
       );
 
       addAvatarGallery(
-        'High complexity, seeded with random color palette',
+        'High complexity, seeded with fixed color palette',
         `High complexity (10) seeded avatars with a custom color palette.
         These will look exactly the same as long as the seeds don\'t change.`,
         Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
         {
           size,
+          palette: ['#FF0075', '#172774', '#77D970', '#EEEEEE'],
           cache: 0,
           complexity: 10,
         }
@@ -411,6 +413,19 @@
           size,
           palette: ['#FF2DD1', '#FDFFB8', '#4DFFBE', '#63C8FF'],
           shapes: ['line'],
+          cache: 0,
+        }
+      );
+
+      addAvatarGallery(
+        'All available shapes, seeded with fixed color palette',
+        `Seeded avatars made exclusively of squares with a custom color palette.
+        These will look exactly the same as long as the seeds don\'t change.`,
+        Array.from(Array(10).keys()).map((n) => String.fromCharCode(65 + n)),
+        {
+          size,
+          palette: ['#007F73', '#4CCD99', '#FFC700', '#FFF455'],
+          shapes: [],
           cache: 0,
         }
       );

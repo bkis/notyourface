@@ -74,11 +74,11 @@ const _pickInt = (min: number = 0, max: number = 100, rnd: () => number) => {
 const _pickColor = (o: Options) => {
   if (o.palette?.length) {
     // pick and rotate
-    const v = o.palette.pop();
-    if (v) o.palette.unshift(v);
-    return v ?? 'red';
+    const v = o.palette.pop() as string;
+    o.palette.unshift(v);
+    return v;
   } else {
-    // return (seed-stable) random color
+    // return pseudo-random color
     return (
       '#' +
       _pickInt(0, 0xfffff * 1000000, o.prng)
@@ -156,14 +156,13 @@ const _drawLine = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number = 
 const _processOptions = (o?: UserOptions): Options => {
   const seedInt = _seedInt(o?.seed ?? Math.random().toString());
   const prng = _prng(seedInt);
-  const palette = o?.palette?.length ? _shuffle(o.palette, prng) : undefined;
   return {
     seed: seedInt.toString(),
     prng,
-    palette,
+    palette: o?.palette?.length ? _shuffle(o.palette, prng) : undefined,
     complexity: o?.complexity ?? 4,
     size: o?.size ?? 128,
-    shapes: o?.shapes?.length ? [...new Set(o.shapes)] : undefined,
+    shapes: o?.shapes?.length ? [...new Set(o.shapes)] : o?.shapes,
     cache: o?.cache != null ? Math.abs(o.cache) : 1024,
   };
 };
@@ -181,14 +180,21 @@ const _generate = (o: Options) => {
   ctx.fillStyle = _pickColor(o);
   ctx.fillRect(0, 0, o.size, o.size);
   // define available draw actions
-  const actions: Array<(sizeMod: number) => void> = Object.entries({
-    circle: (sizeMod: number) => _drawCircle(ctx, o, sizeMod),
-    square: (sizeMod: number) => _drawSquare(ctx, o, sizeMod),
-    line: (sizeMod: number) => _drawLine(ctx, o, sizeMod),
-  })
-    .filter((ae) => !o.shapes?.length || o.shapes.includes(ae[0] as ShapeName))
-    .map((ae) => ae[1]);
-  _shuffle(actions, o.prng);
+  const actions: Array<(sizeMod: number) => void> = _shuffle(
+    Object.entries({
+      circle: (sizeMod: number) => _drawCircle(ctx, o, sizeMod),
+      square: (sizeMod: number) => _drawSquare(ctx, o, sizeMod),
+      line: (sizeMod: number) => _drawLine(ctx, o, sizeMod),
+    }),
+    o.prng
+  )
+    .filter(
+      (a, i) =>
+        (o.shapes && !o.shapes.length) ||
+        (!o.shapes && i == 0) ||
+        o.shapes?.includes(a[0] as ShapeName)
+    )
+    .map((a) => a[1]);
   // draw shapes, count depends on complexity option value, size modifier
   // is decreased with each iteration so shapes in the background are bigger
   for (let i = 1; i <= o.complexity; i++) {
