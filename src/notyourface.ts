@@ -251,18 +251,20 @@ export default nyf;
  */
 export let internal:
   | {
+      _prng: typeof _prng;
       _seedInt: typeof _seedInt;
       _pickColor: typeof _pickColor;
       _pickInt: typeof _pickInt;
-      _prng: typeof _prng;
+      _shuffle: typeof _shuffle;
     }
   | undefined;
 /* v8 ignore if -- @preserve */
 if (!import.meta.env.PROD) {
   internal = {
+    _prng,
     _seedInt,
     _pickColor,
     _pickInt,
-    _prng,
+    _shuffle,
   };
 }
