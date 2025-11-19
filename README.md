@@ -196,6 +196,15 @@ As this library was developed with an optimistic attitude, negative values will 
 
 ❗ A value of `0` will completely disable the cache for this call, so **it will neither be read from nor written to**.
 
+## Versioning
+
+> [!IMPORTANT]
+> We're sticking to [semantic versioning](https://semver.org/) here, so major version bumps will happen whenever the API changes in a way that breaks backwards compatibility.
+>
+> **But what does that mean?**
+>
+> In the context of this project, API compatibility means that as long as calling code uses the same major version of this library, the calls will not break. However, the **generated graphics resulting from certain calls might change with minor version bumps**! This is because even the smallest fix might change the output of the library.
+
 ## Contributing
 
 Contributions are welcome! Please see the [contributing guidelines](CONTRIBUTING.md).
