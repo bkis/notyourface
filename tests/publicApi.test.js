@@ -15,6 +15,7 @@ const testOptions = [
   ...Array.from(Array(10).keys()).map((k) => ({ complexity: k + 1 })),
   { shapes: ['circle'] },
   { shapes: ['square'] },
+  { shapes: [] },
   { size: 256 },
   { size: 32 },
   { cache: 3 },
