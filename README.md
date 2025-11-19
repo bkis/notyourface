@@ -148,7 +148,7 @@ The number of shapes that will be drawn. This makes for the overall perceived co
 
 #### Examples
 
-Complexity values from 1 to 10:
+Complexity values from `1` to `10`:
 
 ![](./docs/assets/example_complexity_01.png)
 ![](./docs/assets/example_complexity_02.png)
@@ -178,14 +178,12 @@ The types of shapes that will be drawn onto the avatar image. This is a way to e
 
 #### Examples
 
-Only `['circle']`, only `['square']` or only `['line']`:
-
-![](./docs/assets/example_shapes_01.png)
-![](./docs/assets/example_shapes_02.png)
-![](./docs/assets/example_shapes_03.png)
-![](./docs/assets/example_shapes_04.png)
-![](./docs/assets/example_shapes_05.png)
-![](./docs/assets/example_shapes_06.png)
+| `undefined` (default) | ![](./docs/assets/example_shapes_undefined_01.png) ![](./docs/assets/example_shapes_undefined_02.png) ![](./docs/assets/example_shapes_undefined_03.png) |
+| --- | --- |
+| `[]` | ![](./docs/assets/example_shapes_all_01.png) ![](./docs/assets/example_shapes_all_02.png) ![](./docs/assets/example_shapes_all_03.png) |
+| `['circle']` | ![](./docs/assets/example_shapes_circle_01.png) ![](./docs/assets/example_shapes_circle_02.png) ![](./docs/assets/example_shapes_circle_03.png) |
+| `['square']` | ![](./docs/assets/example_shapes_square_01.png) ![](./docs/assets/example_shapes_square_02.png) ![](./docs/assets/example_shapes_square_03.png) |
+| `['line']` | ![](./docs/assets/example_shapes_line_01.png) ![](./docs/assets/example_shapes_line_02.png) ![](./docs/assets/example_shapes_line_03.png) |
 
 ### `cache`
 
