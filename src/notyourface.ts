@@ -167,12 +167,6 @@ const _processOptions = (o?: UserOptions): Options => {
   };
 };
 
-const _shapeFns = {
-  circle: _drawCircle,
-  square: _drawSquare,
-  line: _drawLine,
-};
-
 //// AVATAR GENERATION PROCEDURE ////
 
 const _generate = (o: Options) => {
@@ -182,28 +176,31 @@ const _generate = (o: Options) => {
   // assume this is successful – if it isn't, the library is used in
   // an invalid context and the resulting errors are supposed to happen anyway.
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-  // background
+  // draw background
   ctx.fillStyle = _pickColor(o);
   ctx.fillRect(0, 0, o.size, o.size);
-  // define available draw actions
-  let actions: ((ctx: CanvasRenderingContext2D, o: Options, sizeMod?: number) => void)[];
-  if (o.shapes && !o.shapes.length) {
-    // shapes option is an empty array, so all shapes are used
-    actions = Object.values(_shapeFns);
-  } else if (!o.shapes) {
+  // define available shape draw actions
+  const _shapeFns: Record<string, (sizeMod: number) => void> = {
+    circle: (sm) => _drawCircle(ctx, o, sm),
+    square: (sm) => _drawSquare(ctx, o, sm),
+    line: (sm) => _drawLine(ctx, o, sm),
+  };
+  // assume shapes option is an empty array, so all shapes are used
+  let actions: (typeof _shapeFns)[keyof typeof _shapeFns][] = Object.values(_shapeFns);
+  if (o.shapes == null) {
     // shapes option is undefined, so pick one random shape to use
     const shapeNames: (keyof typeof _shapeFns)[] = Object.keys(
       _shapeFns
     ) as (keyof typeof _shapeFns)[];
     actions = [_shapeFns[shapeNames[_pickInt(0, shapeNames.length - 1, o.prng)]]];
-  } else {
+  } else if (o.shapes.length) {
     // shapes option is an array of shape names, so use those
     actions = o.shapes.map((shape) => _shapeFns[shape]);
   }
   // draw shapes, count depends on complexity option value, size modifier
   // is decreased with each iteration so shapes in the background are bigger
   for (let i = 1; i <= o.complexity; i++) {
-    actions[i % actions.length](ctx, o, 1.25 - i / o.complexity);
+    actions[i % actions.length](1.25 - i / o.complexity);
   }
   return canvas.toDataURL();
 };
