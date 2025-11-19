@@ -2,7 +2,7 @@
   "name": "notyourface",
   "private": false,
   "description": "Deterministically generated avatar images. Pretty, simple and lightweight.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "license": "MIT",
   "files": [
