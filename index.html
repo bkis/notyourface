@@ -38,13 +38,20 @@
         display: block;
         max-width: 1200px;
         margin: 0 auto;
-        padding: 1rem;
+        padding: 2rem 1rem;
       }
 
       body > header {
+        width: 768px;
+        max-width: 90%;
+        margin: 0 auto;
         padding: 1rem 1rem 1.5rem 1rem;
         border-radius: 4px;
         text-align: center;
+        background-color: #fff1;
+        border-radius: 70%;
+        border-top-left-radius: 100%;
+        border-bottom-right-radius: 100%;
       }
 
       body > footer {
@@ -274,7 +281,7 @@
 
       //// generate controlled example avatar gallery ////
 
-      const size = 64;
+      const size = 100;
 
       const addAvatarGallery = (heading, description, seeds, options) => {
         const main = document.getElementById('main');
