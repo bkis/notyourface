@@ -88,9 +88,9 @@ All options are, as the name suggests, optional.
 - Type: `unknown` (optional)
 - Default: A random seed.
 
-An optional (but recommended) seed. This can be anything: A string, a number, an object, etc. The output will be stable as long as the same seed is used with the same set of other options. Please use something that is unique about what the avatar is going to represent, like a username.
+An optional (but recommended) seed. This can be anything: A string, a number, an object, etc. **The output will be stable as long as the same seed is used with the same set of other options.**
 
-Also, whatever you use as a seed input should be JSON-serializable or at least produce a meaningful string representation. Internally, the seed is converted to a string (using `JSON.stringify` or `String(seed)` as a fallback) and then hashed to a number.
+Use something that is unique about what the avatar is going to represent, like a username. Also, whatever you use as a seed input should be JSON-serializable or at least produce a meaningful string representation. Internally, the seed is converted to a string (using `JSON.stringify` or `String(seed)` as a fallback) and then hashed to a number.
 
 ### `size`
 
