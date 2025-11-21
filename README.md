@@ -10,7 +10,7 @@
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/notyourface?label=gzip)](https://www.npmjs.com/package/notyourface)
 [![NPM Downloads](https://img.shields.io/npm/dm/notyourface)](https://www.npmjs.com/package/notyourface)
 
-**notyourface** deterministically generates random but stable avatar images from any input seed. Like a configurable hash function that produces funky little graphics. Your face is beautiful! But sometimes you need the next best thing.
+**notyourface** deterministically generates pseudo-random but stable avatar images from any input seed. Like a configurable hash function that produces funky little graphics. Your face is beautiful! But sometimes you need the next best thing.
 
 ![](./docs/assets/example_header_01.png)
 ![](./docs/assets/example_header_02.png)
@@ -117,9 +117,9 @@ Avatar images with `size` values of `64`, `128` and `256`:
 
 A custom color palette to use. The string values can be any valid CSS color string. Using less than two colors here won't make much sense (think about it!).
 
-If no custom color palette is set, random colors will be used.
+If no custom color palette is set or the provided color palette contains less than two colors, a pseudo-random color palette will be generated and used instead.
 
-❗ If a `seed` is given, a "random" color palette will be stable a.k.a. the same for each call using this seed! _Not so random after all!_
+❗ If a `seed` is given, a pseudo-random color palette will be stable a.k.a. the same for each call using this seed! _Not so random after all!_
 
 #### Examples
 
@@ -166,11 +166,11 @@ As you can see, we should've realized we're making a huge mistake at around `6`.
 ### `shapes`
 
 - Type: `Array<'square' | 'circle' | 'line'>` (optional)
-- Default: `undefined` (one random shape type will be used)
+- Default: `undefined` (one pseudo-random shape type will be used)
 
 The types of shapes that will be drawn onto the avatar image. This is a way to e.g. reduce the shapes used to only specific types. This greatly changes the overall style and distinguishability of the avatar image.
 
-- If not set, only **one random shape type** will be used (default).
+- If not set, a **single pseudo-random shape type** will be used (default).
 - If set to `[]` (an empty array), **all available shape types** will be used.
 - If set to a specific combination of shape types, **only those** will be used.
 

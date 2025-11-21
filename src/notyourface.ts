@@ -4,6 +4,7 @@
 
 type ComplexityValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 type ShapeName = 'square' | 'circle' | 'line';
+type PRNG = () => number;
 
 interface UserOptions {
   seed?: unknown;
@@ -16,9 +17,9 @@ interface UserOptions {
 
 interface Options {
   seed: string;
-  prng: () => number;
+  prng: PRNG;
   size: number;
-  palette?: string[];
+  palette: string[];
   complexity: ComplexityValue;
   shapes?: ShapeName[];
   cache: number;
@@ -60,10 +61,10 @@ const _prng = (a: number) => () => {
  * Returns a random integer between min and max (inclusive)
  * using the given random number generator function.
  */
-const _pickInt = (min: number = 0, max: number = 100, rnd: () => number) => {
+const _pickInt = (min: number = 0, max: number = 100, prng: PRNG) => {
   if (min > max) throw Error(`min (${min}) > (${max}).`);
   const span = Math.floor(max) + 1 - Math.ceil(min);
-  return Math.floor(span * rnd()) + Math.ceil(min);
+  return Math.floor(span * prng()) + Math.ceil(min);
 };
 
 /**
@@ -72,29 +73,18 @@ const _pickInt = (min: number = 0, max: number = 100, rnd: () => number) => {
  * using the given random number generator function.
  */
 const _pickColor = (o: Options) => {
-  if (o.palette?.length) {
-    // pick and rotate
-    const v = o.palette.pop() as string;
-    o.palette.unshift(v);
-    return v;
-  } else {
-    // return pseudo-random color
-    return (
-      '#' +
-      _pickInt(0, 0xfffff * 1000000, o.prng)
-        .toString(16)
-        .slice(0, 6)
-    );
-  }
+  const v = o.palette.pop() as string;
+  o.palette.unshift(v);
+  return v;
 };
 
 /**
  * Shuffles the given array using the given random number generator function.
  */
-const _shuffle = <T>(arr: Array<T>, rnd: () => number) => {
+const _shuffle = <T>(arr: Array<T>, prng: PRNG) => {
   let currentIndex = arr.length;
   while (currentIndex != 0) {
-    const randomIndex = Math.floor(rnd() * currentIndex);
+    const randomIndex = Math.floor(prng() * currentIndex);
     currentIndex--;
     [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
   }
@@ -150,17 +140,39 @@ const _drawLine = (ctx: CanvasRenderingContext2D, o: Options, sizeMod: number = 
 };
 
 /**
+ * Generates a color palette of five colors.
+ */
+const _generatePalette = (size: number, prng: PRNG) => {
+  const colors: string[] = [];
+  const baseH = 360 * prng();
+  const hueStepSize = 20 + 20 * prng();
+  const hueJumpProb = Math.min(prng(), 0.3);
+  // generate n colors (n = complexity + 1, because bg + no. of shapes)
+  for (let i = 0; i < size; i++) {
+    const h = baseH + i * hueStepSize + (prng() < hueJumpProb ? 180 : 0);
+    const s = 50 + 50 * prng();
+    const l = 20 + 60 * prng();
+    colors.push(`hsl(${Math.round(h)}, ${Math.round(s)}%, ${Math.round(l)}%)`);
+  }
+  return colors;
+};
+
+/**
  * Makes sure the passed options object is complete and returns a new object with
  * all options set.
  */
 const _processOptions = (o?: UserOptions): Options => {
   const seedInt = _seedInt(o?.seed ?? Math.random().toString());
   const prng = _prng(seedInt);
+  const complexity = o?.complexity ?? 4;
   return {
     seed: seedInt.toString(),
     prng,
-    palette: o?.palette?.length ? _shuffle(o.palette, prng) : undefined,
-    complexity: o?.complexity ?? 4,
+    palette: _shuffle(
+      !o?.palette || o.palette.length < 2 ? _generatePalette(complexity + 1, prng) : o.palette,
+      prng
+    ),
+    complexity,
     size: o?.size ?? 128,
     shapes: o?.shapes?.length ? [...new Set(o.shapes)] : o?.shapes,
     cache: o?.cache != null ? Math.abs(o.cache) : 1024,
